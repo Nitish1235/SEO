@@ -192,10 +192,10 @@ export async function POST(request: NextRequest) {
         imageDetails: {
           total: imagesAnalysis.totalImages,
           withDimensions: scrapedData.data.images?.filter((img: any) => img.width && img.height).length || 0,
-          avgWidth: scrapedData.data.images?.length > 0 
+          avgWidth: scrapedData.data.images && scrapedData.data.images.length > 0 
             ? Math.round((scrapedData.data.images.reduce((sum: number, img: any) => sum + (img.width || 0), 0) / scrapedData.data.images.length))
             : 0,
-          avgHeight: scrapedData.data.images?.length > 0
+          avgHeight: scrapedData.data.images && scrapedData.data.images.length > 0
             ? Math.round((scrapedData.data.images.reduce((sum: number, img: any) => sum + (img.height || 0), 0) / scrapedData.data.images.length))
             : 0,
         },
