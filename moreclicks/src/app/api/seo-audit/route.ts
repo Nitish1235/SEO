@@ -85,6 +85,9 @@ export async function POST(request: NextRequest) {
       // Run comprehensive SEO audit using Scrape.do
       const scrapedData = await ScrapeDoService.scrapeURL(url).catch(() => null)
 
+      // onPageData is not used in current implementation, pass null
+      const onPageData = null
+
       // Technical SEO Analysis
       const technicalIssues = analyzeTechnicalSEO(url, scrapedData, onPageData)
       const technicalScore = calculateTechnicalScore(technicalIssues)

@@ -113,7 +113,7 @@ ${data.analyses.ssl.issues.length > 0 ? `Issues: ${data.analyses.ssl.issues.join
 
 ADDITIONAL DATA:
 ${data.additionalData ? `
-Schema Markup: ${data.additionalData.schema?.length > 0 ? `${data.additionalData.schema.length} schema(s) found (${data.additionalData.schema.map((s: any) => s['@type'] || 'unknown').join(', ')})` : 'None detected'}
+Schema Markup: ${data.additionalData?.schema && data.additionalData.schema.length > 0 ? `${data.additionalData.schema.length} schema(s) found (${data.additionalData.schema.map((s: any) => s['@type'] || 'unknown').join(', ')})` : 'None detected'}
 Open Graph Tags: ${data.additionalData.ogTags && Object.keys(data.additionalData.ogTags).length > 0 ? `Present (${Object.keys(data.additionalData.ogTags).join(', ')})` : 'Missing'}
 Twitter Cards: ${data.additionalData.twitterTags && Object.keys(data.additionalData.twitterTags).length > 0 ? `Present (${Object.keys(data.additionalData.twitterTags).join(', ')})` : 'Missing'}
 Language: ${data.additionalData.language || 'Not specified'}

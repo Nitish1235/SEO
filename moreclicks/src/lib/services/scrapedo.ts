@@ -275,6 +275,12 @@ export class ScrapeDoService {
           title: titleMatch?.[1]?.trim() || '',
           meta: {
             description: metaDescMatch?.[1]?.trim() || '',
+            keywords: undefined, // Not extracted in this function
+            ogTitle: undefined, // Not extracted in this function
+            ogDescription: undefined, // Not extracted in this function
+            ogImage: undefined, // Not extracted in this function
+            og: Object.keys(ogTags).length > 0 ? ogTags : undefined,
+            twitter: Object.keys(twitterTags).length > 0 ? twitterTags : undefined,
           },
           headings: {
             h1: h1Matches.map(h => h.replace(/<[^>]+>/g, '').trim()),
@@ -297,11 +303,6 @@ export class ScrapeDoService {
           links: links.slice(0, 100), // Limit to first 100 links
           images: images.slice(0, 50), // Limit to first 50 images
           schema: schemas.length > 0 ? schemas : undefined,
-          meta: {
-            description: metaDescMatch?.[1]?.trim() || '',
-            og: Object.keys(ogTags).length > 0 ? ogTags : undefined,
-            twitter: Object.keys(twitterTags).length > 0 ? twitterTags : undefined,
-          },
           language,
           // Detailed analysis
           seoAnalysis: {
@@ -338,7 +339,7 @@ export class ScrapeDoService {
               h1Count: h1Matches.length,
               h2Count: h2Matches.length,
               h3Count: h3Matches.length,
-              h1Length: h1Matches.length > 0 ? h1Matches[0].replace(/<[^>]+>/g, '').trim().length : 0,
+              h1Length: h1Matches.length > 0 && h1Matches[0] ? h1Matches[0].replace(/<[^>]+>/g, '').trim().length : 0,
             },
           },
         },

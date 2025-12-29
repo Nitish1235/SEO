@@ -17,7 +17,7 @@ export function ProcessingOverlay({
   const [dots, setDots] = useState('')
   const [progress, setProgress] = useState(0)
   const progressRef = useRef(0)
-  const animationFrameRef = useRef<number>()
+  const animationFrameRef = useRef<number | undefined>(undefined)
 
   useEffect(() => {
     if (!isProcessing) {

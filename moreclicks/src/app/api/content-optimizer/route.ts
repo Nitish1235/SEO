@@ -123,7 +123,7 @@ export async function POST(request: NextRequest) {
       // Generate AI suggestions using Claude
       const aiSuggestions = await generateContentSuggestions(
         content,
-        targetKeyword,
+        targetKeyword || null,
         originalMetrics,
         competitorData
       )
@@ -134,7 +134,7 @@ export async function POST(request: NextRequest) {
       // Generate optimized content (if requested)
       let optimizedContent: string | null = null
       if (aiSuggestions.optimizeContent) {
-        optimizedContent = await generateOptimizedContent(content, targetKeyword, aiSuggestions)
+        optimizedContent = await generateOptimizedContent(content, targetKeyword || null, aiSuggestions)
       }
 
       // Update optimization record
