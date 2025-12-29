@@ -297,7 +297,7 @@ export default function CompetitorAnalysisResultsPage() {
                 <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
                 <XAxis dataKey="name" angle={-45} textAnchor="end" height={80} fontSize={12} />
                 <YAxis />
-                <Tooltip formatter={(value: number) => value.toLocaleString()} />
+                <Tooltip formatter={(value: number | undefined) => value !== undefined ? value.toLocaleString() : ''} />
                 <Bar dataKey="value" radius={[8, 8, 0, 0]}>
                   {wordCountData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={
@@ -325,7 +325,7 @@ export default function CompetitorAnalysisResultsPage() {
                 <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
                 <XAxis dataKey="name" angle={-45} textAnchor="end" height={80} fontSize={12} />
                 <YAxis />
-                <Tooltip formatter={(value: number) => value.toLocaleString()} />
+                <Tooltip formatter={(value: number | undefined) => value !== undefined ? value.toLocaleString() : ''} />
                 <Bar dataKey="value" radius={[8, 8, 0, 0]}>
                   {imageCountData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={
