@@ -1,5 +1,4 @@
 steps:
-  # Build Docker image from moreclicks folder
   - name: 'gcr.io/cloud-builders/docker'
     dir: 'moreclicks'
     args:
@@ -8,7 +7,6 @@ steps:
       - 'gcr.io/$PROJECT_ID/seo-analyzer'
       - '.'
 
-  # Push image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
