@@ -404,6 +404,43 @@ export class ScrapeDoService {
       imagesWithAlt: number
       imageTypes: string[] // jpg, png, svg, etc.
     }
+    seoAnalysis?: {
+      title?: {
+        length?: number
+        hasKeyword?: boolean
+      }
+      meta?: {
+        descriptionLength?: number
+        hasKeyword?: boolean
+      }
+      images?: {
+        total?: number
+        withAlt?: number
+        withoutAlt?: number
+        altQuality?: {
+          good?: number
+          poor?: number
+          generic?: number
+          tooLong?: number
+          missing?: number
+        }
+      }
+      links?: {
+        total?: number
+        internal?: number
+        external?: number
+        anchor?: number
+        withText?: number
+        withoutText?: number
+        nofollow?: number
+      }
+      headings?: {
+        h1Count?: number
+        h2Count?: number
+        h3Count?: number
+        h1Length?: number
+      }
+    }
   }> {
     const result = await this.scrapeURL(url, keyword)
     
@@ -468,7 +505,7 @@ export class ScrapeDoService {
         imagesWithAlt,
         imageTypes,
       },
-      seoAnalysis: result.data.seoAnalysis || null,
+      seoAnalysis: result.data.seoAnalysis,
     }
   }
 }
