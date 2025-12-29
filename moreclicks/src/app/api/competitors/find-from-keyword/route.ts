@@ -273,7 +273,7 @@ export async function POST(request: NextRequest) {
       const calculateAverage = (key: string) => {
         return validCompetitors.length > 0
           ? validCompetitors.reduce((sum, c) => {
-              const value = c?.[key]
+              const value = (c as Record<string, any>)?.[key]
               return sum + (typeof value === 'number' ? value : 0)
             }, 0) / validCompetitors.length
           : 0
