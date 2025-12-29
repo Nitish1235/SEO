@@ -1,6 +1,18 @@
 steps:
-  # Build the container image
+  # Clone GitLab repository (if building from GitLab)
+  # Note: For manual builds from local machine, skip this step
+  - name: 'gcr.io/cloud-builders/git'
+    args:
+      - 'clone'
+      - 'https://gitlab.com/nj07508/repository.git'
+      - 'source'
+    waitFor: ['-']
+  
+  # Build the container image from moreclicks folder
+  # If building from local, this will use current directory
+  # If building from GitLab, this will use source/moreclicks
   - name: 'gcr.io/cloud-builders/docker'
+    dir: '${_BUILD_DIR}'  # Use substitution variable, defaults to '.' for local builds
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/seo-analyzer', '.']
   
   # Push the container image to Container Registry
@@ -36,6 +48,9 @@ steps:
 
 images:
   - 'gcr.io/$PROJECT_ID/seo-analyzer'
+
+substitutions:
+  _BUILD_DIR: '.'  # Default to current directory for local builds
 
 options:
   logging: CLOUD_LOGGING_ONLY

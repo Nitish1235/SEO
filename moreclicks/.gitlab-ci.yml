@@ -1,0 +1,61 @@
+# GitLab CI/CD Pipeline for GCP Deployment
+# This file should be placed in the repository root (not in moreclicks folder)
+
+stages:
+  - build
+  - deploy
+
+variables:
+  GCP_PROJECT_ID: "your-project-id"  # Update this with your GCP project ID
+  GCP_REGION: "us-central1"
+  SERVICE_NAME: "seo-analyzer"
+  IMAGE_NAME: "gcr.io/${GCP_PROJECT_ID}/${SERVICE_NAME}"
+
+# Build stage - Build Docker image
+build:
+  stage: build
+  image: google/cloud-sdk:latest
+  before_script:
+    # Authenticate with GCP using service account key
+    - echo "$GCP_SERVICE_ACCOUNT_KEY" | base64 -d > $HOME/gcp-key.json
+    - gcloud auth activate-service-account --key-file $HOME/gcp-key.json
+    - gcloud config set project $GCP_PROJECT_ID
+    - gcloud auth configure-docker
+  script:
+    # Navigate to moreclicks folder and build
+    - cd moreclicks
+    - gcloud builds submit --tag $IMAGE_NAME .
+  only:
+    - main
+    - master
+  tags:
+    - docker
+
+# Deploy stage - Deploy to Cloud Run
+deploy:
+  stage: deploy
+  image: google/cloud-sdk:latest
+  before_script:
+    - echo "$GCP_SERVICE_ACCOUNT_KEY" | base64 -d > $HOME/gcp-key.json
+    - gcloud auth activate-service-account --key-file $HOME/gcp-key.json
+    - gcloud config set project $GCP_PROJECT_ID
+  script:
+    - |
+      gcloud run deploy $SERVICE_NAME \
+        --image $IMAGE_NAME \
+        --region $GCP_REGION \
+        --platform managed \
+        --allow-unauthenticated \
+        --add-cloudsql-instances ${GCP_PROJECT_ID}:${GCP_REGION}:seo-analyzer-db \
+        --set-secrets "DATABASE_URL=database-url:latest,REDIS_URL=redis-url:latest,NEXTAUTH_SECRET=nextauth-secret:latest,GOOGLE_CLIENT_ID=google-client-id:latest,GOOGLE_CLIENT_SECRET=google-client-secret:latest,ANTHROPIC_API_KEY=anthropic-api-key:latest,DATAFORSEO_LOGIN=dataforseo-login:latest,DATAFORSEO_PASSWORD=dataforseo-password:latest,SERPER_API_KEY=serper-api-key:latest,SCRAPEDO_API_KEY=scrapedo-api-key:latest,DODO_API_KEY=dodo-api-key:latest,DODO_WEBHOOK_SECRET=dodo-webhook-secret:latest" \
+        --memory 2Gi \
+        --cpu 2 \
+        --timeout 300 \
+        --max-instances 10
+  only:
+    - main
+    - master
+  when: on_success
+  tags:
+    - docker
+

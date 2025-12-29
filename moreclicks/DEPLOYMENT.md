@@ -109,9 +109,28 @@ This guide will help you deploy your SEO Analyzer application on Google Cloud Pl
 #### Prerequisites
 
 - Google Cloud account with $300 free credits
-- GitHub account (to store your code)
+- GitLab repository with your code (you have this at `gitlab.com/nj07508/repository`)
 - Domain: `moreclicks.io` on Hostinger (you have this!)
 - Basic command line knowledge
+
+**Note:** Your code is in the `moreclicks` folder in your GitLab repository. We'll account for this in the deployment steps.
+
+#### Quick Reference for GitLab Deployment
+
+**Your Setup:**
+- GitLab Repository: `gitlab.com/nj07508/repository`
+- Code Location: `moreclicks` folder
+- Domain: `moreclicks.io` (Hostinger)
+
+**Deployment Options:**
+1. **Manual Deployment (Easiest for first time)**: Build from local `moreclicks` folder
+2. **GitLab CI/CD (Automated)**: Set up `.gitlab-ci.yml` in repository root
+3. **Cloud Build from GitLab**: Use `cloudbuild.yaml` to clone and build
+
+**Important Files:**
+- `Dockerfile` - Already in `moreclicks` folder ✅
+- `cloudbuild.yaml` - Already in `moreclicks` folder ✅
+- `.gitlab-ci.yml` - Created in `moreclicks` folder, needs to be moved to root
 
 #### Step 1: Create a Google Cloud Project
 
@@ -284,14 +303,27 @@ This guide will help you deploy your SEO Analyzer application on Google Cloud Pl
    module.exports = nextConfig
    ```
 
-3. **Push Code to GitHub**
+3. **Verify GitLab Repository**
+   Your code is already on GitLab at `gitlab.com/nj07508/repository` with the `moreclicks` folder.
+   
+   **If you need to update your code:**
    ```bash
-   git init
+   # Navigate to your project folder
+   cd "F:\SAAS\SEO - Copy\moreclicks"
+   
+   # Check if git is initialized
+   git status
+   
+   # If not connected to GitLab, add remote
+   git remote add origin https://gitlab.com/nj07508/repository.git
+   
+   # Or if already connected, just push updates
    git add .
-   git commit -m "Initial commit for GCP deployment"
-   git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
-   git push -u origin main
+   git commit -m "Update for GCP deployment"
+   git push origin main
    ```
+   
+   **Important:** Make sure your `.env.local` file is NOT committed (it should be in `.gitignore`)
 
 #### Step 7: Store Environment Variables in Secret Manager
 
@@ -340,13 +372,27 @@ This guide will help you deploy your SEO Analyzer application on Google Cloud Pl
 
 #### Step 8: Deploy to Cloud Run
 
-1. **Build and Deploy Using Cloud Build**
+Since your code is in the `moreclicks` folder, we need to specify the build context.
+
+1. **Build and Deploy Using Cloud Build (from GitLab)**
+   
+   **Option A: Build from Local Machine (Recommended for first deployment)**
    ```bash
+   # Navigate to the moreclicks folder
+   cd "F:\SAAS\SEO - Copy\moreclicks"
+   
    # Set your project
    gcloud config set project YOUR_PROJECT_ID
    
-   # Submit build
+   # Submit build (Cloud Build will use the Dockerfile in current directory)
    gcloud builds submit --tag gcr.io/YOUR_PROJECT_ID/seo-analyzer
+   ```
+   
+   **Option B: Build from GitLab Repository**
+   ```bash
+   # Build directly from GitLab (requires GitLab CI/CD or manual trigger)
+   gcloud builds submit --config=cloudbuild.yaml \
+     --substitutions=_GITLAB_REPO_URL=https://gitlab.com/nj07508/repository.git
    ```
 
 2. **Deploy to Cloud Run**
@@ -560,15 +606,30 @@ Since you have `moreclicks.io` domain on Hostinger, let's connect it to your Clo
    - Go to Stripe Dashboard → Webhooks
    - Update webhook URL: `https://moreclicks.io/api/webhooks/stripe`
 
-#### Step 12: Set Up Continuous Deployment (Optional)
+#### Step 12: Set Up Continuous Deployment from GitLab
 
-1. **Create cloudbuild.yaml**
+1. **Update cloudbuild.yaml for GitLab**
+   
+   Since your code is in the `moreclicks` folder, update `cloudbuild.yaml`:
    ```yaml
    steps:
+     # Clone GitLab repository
+     - name: 'gcr.io/cloud-builders/git'
+       args:
+         - 'clone'
+         - 'https://gitlab.com/nj07508/repository.git'
+         - 'source'
+     
+     # Build the container image from moreclicks folder
      - name: 'gcr.io/cloud-builders/docker'
+       dir: 'source/moreclicks'
        args: ['build', '-t', 'gcr.io/$PROJECT_ID/seo-analyzer', '.']
+     
+     # Push the container image to Container Registry
      - name: 'gcr.io/cloud-builders/docker'
        args: ['push', 'gcr.io/$PROJECT_ID/seo-analyzer']
+     
+     # Deploy container image to Cloud Run
      - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
        entrypoint: gcloud
        args:
@@ -581,14 +642,150 @@ Since you have `moreclicks.io` domain on Hostinger, let's connect it to your Clo
          - 'us-central1'
          - '--platform'
          - 'managed'
+         - '--allow-unauthenticated'
+         - '--add-cloudsql-instances'
+         - '$PROJECT_ID:us-central1:seo-analyzer-db'
+         - '--set-secrets'
+         - 'DATABASE_URL=database-url:latest,REDIS_URL=redis-url:latest,NEXTAUTH_SECRET=nextauth-secret:latest,GOOGLE_CLIENT_ID=google-client-id:latest,GOOGLE_CLIENT_SECRET=google-client-secret:latest,ANTHROPIC_API_KEY=anthropic-api-key:latest,DATAFORSEO_LOGIN=dataforseo-login:latest,DATAFORSEO_PASSWORD=dataforseo-password:latest,SERPER_API_KEY=serper-api-key:latest,SCRAPEDO_API_KEY=scrapedo-api-key:latest,DODO_API_KEY=dodo-api-key:latest,DODO_WEBHOOK_SECRET=dodo-webhook-secret:latest'
+         - '--memory'
+         - '2Gi'
+         - '--cpu'
+         - '2'
+         - '--timeout'
+         - '300'
+         - '--max-instances'
+         - '10'
+
+   images:
+     - 'gcr.io/$PROJECT_ID/seo-analyzer'
+
+   options:
+     logging: CLOUD_LOGGING_ONLY
    ```
 
-2. **Connect GitHub Repository**
-   - Go to Cloud Build → Triggers
-   - Click "Create Trigger"
-   - Connect your GitHub repository
-   - Set trigger to run on push to `main` branch
-   - Use the `cloudbuild.yaml` file
+2. **Set Up GitLab CI/CD to Trigger Cloud Build**
+   
+   **Option A: Manual Trigger from Cloud Build Console**
+   - Go to [Cloud Build Console](https://console.cloud.google.com/cloud-build)
+   - Click "Triggers" → "Create Trigger"
+   - Source: "GitLab (coming soon)" or use "Manual"
+   - For now, you can manually trigger builds:
+     ```bash
+     gcloud builds submit --config=cloudbuild.yaml
+     ```
+   
+   **Option B: Use GitLab CI/CD with Cloud Build API**
+   
+   **Important:** Create `.gitlab-ci.yml` in your **repository root** (not in the `moreclicks` folder).
+   The file is already created for you at `moreclicks/.gitlab-ci.yml` - you need to move it to the root:
+   
+   ```bash
+   # Move from moreclicks folder to repository root
+   # In your local repository:
+   cd "F:\SAAS\SEO - Copy"
+   copy moreclicks\.gitlab-ci.yml .gitlab-ci.yml
+   
+   # Then commit and push
+   git add .gitlab-ci.yml
+   git commit -m "Add GitLab CI/CD configuration"
+   git push origin main
+   ```
+   
+   The `.gitlab-ci.yml` file should be in the root (same level as the `moreclicks` folder):
+   ```yaml
+   stages:
+     - build
+     - deploy
+   
+   build:
+     stage: build
+     image: google/cloud-sdk:latest
+     before_script:
+       - echo $GCP_SERVICE_ACCOUNT_KEY | base64 -d > $HOME/gcp-key.json
+       - gcloud auth activate-service-account --key-file $HOME/gcp-key.json
+       - gcloud config set project $GCP_PROJECT_ID
+     script:
+       - cd moreclicks
+       - gcloud builds submit --tag gcr.io/$GCP_PROJECT_ID/seo-analyzer
+     only:
+       - main
+   
+   deploy:
+     stage: deploy
+     image: google/cloud-sdk:latest
+     before_script:
+       - echo $GCP_SERVICE_ACCOUNT_KEY | base64 -d > $HOME/gcp-key.json
+       - gcloud auth activate-service-account --key-file $HOME/gcp-key.json
+       - gcloud config set project $GCP_PROJECT_ID
+     script:
+       - gcloud run deploy seo-analyzer \
+           --image gcr.io/$GCP_PROJECT_ID/seo-analyzer \
+           --region us-central1 \
+           --platform managed \
+           --allow-unauthenticated \
+           --add-cloudsql-instances $GCP_PROJECT_ID:us-central1:seo-analyzer-db \
+           --set-secrets DATABASE_URL=database-url:latest,REDIS_URL=redis-url:latest,NEXTAUTH_SECRET=nextauth-secret:latest \
+           --memory 2Gi --cpu 2 --timeout 300 --max-instances 10
+     only:
+       - main
+   ```
+   
+   **To set up GitLab CI/CD variables:**
+   - Go to GitLab → Your Repository → Settings → CI/CD → Variables
+   - Add these variables:
+     - `GCP_PROJECT_ID`: Your GCP project ID
+     - `GCP_SERVICE_ACCOUNT_KEY`: Base64-encoded service account key (see below)
+   
+   **Create Service Account for GitLab:**
+   ```bash
+   # Create service account
+   gcloud iam service-accounts create gitlab-ci \
+     --display-name="GitLab CI Service Account"
+   
+   # Grant necessary permissions
+   gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
+     --member="serviceAccount:gitlab-ci@YOUR_PROJECT_ID.iam.gserviceaccount.com" \
+     --role="roles/cloudbuild.builds.editor"
+   
+   gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
+     --member="serviceAccount:gitlab-ci@YOUR_PROJECT_ID.iam.gserviceaccount.com" \
+     --role="roles/run.admin"
+   
+   gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
+     --member="serviceAccount:gitlab-ci@YOUR_PROJECT_ID.iam.gserviceaccount.com" \
+     --role="roles/iam.serviceAccountUser"
+   
+   # Create and download key
+   gcloud iam service-accounts keys create gitlab-ci-key.json \
+     --iam-account=gitlab-ci@YOUR_PROJECT_ID.iam.gserviceaccount.com
+   
+   # Base64 encode for GitLab
+   # On Windows (PowerShell):
+   [Convert]::ToBase64String([IO.File]::ReadAllBytes("gitlab-ci-key.json"))
+   
+   # On Mac/Linux:
+   base64 -i gitlab-ci-key.json
+   
+   # Copy the output and paste it as GCP_SERVICE_ACCOUNT_KEY in GitLab CI/CD variables
+   ```
+   
+   **Option C: Manual Deployment (Simplest for now)**
+   ```bash
+   # Navigate to moreclicks folder
+   cd "F:\SAAS\SEO - Copy\moreclicks"
+   
+   # Build and deploy
+   gcloud builds submit --tag gcr.io/YOUR_PROJECT_ID/seo-analyzer
+   
+   gcloud run deploy seo-analyzer \
+     --image gcr.io/YOUR_PROJECT_ID/seo-analyzer \
+     --region us-central1 \
+     --platform managed \
+     --allow-unauthenticated \
+     --add-cloudsql-instances YOUR_PROJECT_ID:us-central1:seo-analyzer-db \
+     --set-secrets "DATABASE_URL=database-url:latest,REDIS_URL=redis-url:latest,NEXTAUTH_SECRET=nextauth-secret:latest,GOOGLE_CLIENT_ID=google-client-id:latest,GOOGLE_CLIENT_SECRET=google-client-secret:latest,ANTHROPIC_API_KEY=anthropic-api-key:latest,DATAFORSEO_LOGIN=dataforseo-login:latest,DATAFORSEO_PASSWORD=dataforseo-password:latest,SERPER_API_KEY=serper-api-key:latest,SCRAPEDO_API_KEY=scrapedo-api-key:latest,DODO_API_KEY=dodo-api-key:latest,DODO_WEBHOOK_SECRET=dodo-webhook-secret:latest" \
+     --memory 2Gi --cpu 2 --timeout 300 --max-instances 10
+   ```
 
 #### Step 13: Monitor and Optimize
 
