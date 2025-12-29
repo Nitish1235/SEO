@@ -50,9 +50,50 @@ export interface ScrapeDoResponse {
       src: string
       alt?: string
       title?: string
+      width?: number | null
+      height?: number | null
+      hasAlt?: boolean
+      altQuality?: string
     }>
     schema?: any
     language?: string
+    seoAnalysis?: {
+      title?: {
+        length?: number
+        hasKeyword?: boolean
+      }
+      meta?: {
+        descriptionLength?: number
+        hasKeyword?: boolean
+      }
+      images?: {
+        total?: number
+        withAlt?: number
+        withoutAlt?: number
+        altQuality?: {
+          good?: number
+          poor?: number
+          generic?: number
+          tooLong?: number
+          missing?: number
+        }
+      }
+      links?: {
+        total?: number
+        internal?: number
+        external?: number
+        anchor?: number
+        withText?: number
+        withoutText?: number
+        nofollow?: number
+      }
+      headings?: {
+        h1Count?: number
+        h2Count?: number
+        h3Count?: number
+        h1Length?: number
+      }
+    }
   }
   error?: string
 }

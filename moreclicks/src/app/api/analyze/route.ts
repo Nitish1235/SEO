@@ -191,12 +191,12 @@ export async function POST(request: NextRequest) {
         contentStructure: scrapedData.data.content?.structure || {},
         imageDetails: {
           total: imagesAnalysis.totalImages,
-          withDimensions: scrapedData.data.images?.filter((img: any) => img.width && img.height).length || 0,
+          withDimensions: scrapedData.data.images?.filter((img: any) => img.width && img.height && img.width > 0 && img.height > 0).length || 0,
           avgWidth: scrapedData.data.images && scrapedData.data.images.length > 0 
-            ? Math.round((scrapedData.data.images.reduce((sum: number, img: any) => sum + (img.width || 0), 0) / scrapedData.data.images.length))
+            ? Math.round((scrapedData.data.images.reduce((sum: number, img: any) => sum + ((img.width && typeof img.width === 'number') ? img.width : 0), 0) / scrapedData.data.images.length))
             : 0,
           avgHeight: scrapedData.data.images && scrapedData.data.images.length > 0
-            ? Math.round((scrapedData.data.images.reduce((sum: number, img: any) => sum + (img.height || 0), 0) / scrapedData.data.images.length))
+            ? Math.round((scrapedData.data.images.reduce((sum: number, img: any) => sum + ((img.height && typeof img.height === 'number') ? img.height : 0), 0) / scrapedData.data.images.length))
             : 0,
         },
         linkDetails: {
