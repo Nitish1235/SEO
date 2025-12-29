@@ -33,6 +33,13 @@ export interface ScrapeDoResponse {
       html?: string
       wordCount?: number
       readingTime?: number
+      structure?: {
+        hasLists?: boolean
+        hasTables?: boolean
+        hasFAQ?: boolean
+        listCount?: number
+        tableCount?: number
+      }
     }
     links?: Array<{
       url: string
