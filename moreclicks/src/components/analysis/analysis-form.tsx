@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useRouter } from 'next/navigation'
 import { showToast } from '@/components/shared/toast'
+import { ProcessingOverlay } from '@/components/shared/processing-overlay'
 
 export function AnalysisForm() {
   const [url, setUrl] = useState('')
@@ -43,35 +44,42 @@ export function AnalysisForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label htmlFor="url" className="text-sm font-medium text-foreground mb-2 block">
-          Website URL
-        </label>
-        <Input
-          id="url"
-          type="url"
-          placeholder="https://example.com"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          required
-          disabled={loading}
-        />
-        <p className="text-xs text-muted-foreground mt-1">
-          Enter the full URL including https://
-        </p>
-      </div>
-
-      {error && (
-        <div className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
-          {error}
+    <>
+      <ProcessingOverlay 
+        isProcessing={loading}
+        message="Analyzing your website"
+        subMessage="This may take a few moments..."
+      />
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label htmlFor="url" className="text-sm font-medium text-foreground mb-2 block">
+            Website URL
+          </label>
+          <Input
+            id="url"
+            type="url"
+            placeholder="https://example.com"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            required
+            disabled={loading}
+          />
+          <p className="text-xs text-muted-foreground mt-1">
+            Enter the full URL including https://
+          </p>
         </div>
-      )}
 
-      <Button type="submit" disabled={loading || !url} className="w-full">
-        {loading ? 'Analyzing...' : 'Start Analysis'}
-      </Button>
-    </form>
+        {error && (
+          <div className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
+            {error}
+          </div>
+        )}
+
+        <Button type="submit" disabled={loading || !url} className="w-full">
+          {loading ? 'Analyzing...' : 'Start Analysis'}
+        </Button>
+      </form>
+    </>
   )
 }
 

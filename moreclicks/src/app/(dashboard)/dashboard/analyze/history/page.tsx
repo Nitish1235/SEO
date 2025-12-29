@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -8,7 +8,6 @@ import Link from 'next/link'
 import { ArrowLeft, Search, ExternalLink } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { SearchInput } from '@/components/shared/search-input'
-import { useState, useMemo } from 'react'
 
 export default function AnalysisHistoryPage() {
   const [analyses, setAnalyses] = useState<any[]>([])

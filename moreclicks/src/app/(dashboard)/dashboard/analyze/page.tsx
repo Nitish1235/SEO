@@ -19,8 +19,11 @@ export default function AnalyzePage() {
           </Button>
         </Link>
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Website Analysis</h1>
-          <p className="text-muted-foreground mt-2">
+          <h1 className="text-4xl md:text-5xl font-extrabold">
+            <span className="gradient-text-4">Website</span>
+            <span className="block gradient-text">Analysis</span>
+          </h1>
+          <p className="text-purple-600 font-bold mt-2 text-lg tracking-wide">
             Enter a URL to get a comprehensive SEO audit with 50+ metrics.
           </p>
         </div>
@@ -29,7 +32,7 @@ export default function AnalyzePage() {
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>New Analysis</CardTitle>
+            <CardTitle className="gradient-text-2">New Analysis</CardTitle>
           </CardHeader>
           <CardContent>
             <AnalysisForm />
@@ -38,7 +41,7 @@ export default function AnalyzePage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
+            <CardTitle className="gradient-text-6">Quick Actions</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
             <Link href="/dashboard/analyze/history">

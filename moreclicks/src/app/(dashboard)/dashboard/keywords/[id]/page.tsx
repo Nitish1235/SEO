@@ -76,7 +76,7 @@ export default function KeywordResearchResultsPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold">{research.searchVolume?.toLocaleString() || 'N/A'}</p>
+            <p className="text-2xl font-bold">{research.searchVolume?.toLocaleString() ?? 'N/A'}</p>
             <p className="text-xs text-muted-foreground mt-1">Monthly searches</p>
           </CardContent>
         </Card>
@@ -86,7 +86,7 @@ export default function KeywordResearchResultsPage() {
             <CardTitle className="text-sm font-medium text-muted-foreground">Difficulty</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold">{research.keywordDifficulty || 'N/A'}</p>
+            <p className="text-2xl font-bold">{research.keywordDifficulty ?? 'N/A'}</p>
             <p className="text-xs text-muted-foreground mt-1">0-100 scale</p>
           </CardContent>
         </Card>
@@ -99,7 +99,7 @@ export default function KeywordResearchResultsPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold">${research.cpc?.toFixed(2) || 'N/A'}</p>
+            <p className="text-2xl font-bold">${research.cpc?.toFixed(2) ?? 'N/A'}</p>
             <p className="text-xs text-muted-foreground mt-1">Cost per click</p>
           </CardContent>
         </Card>
@@ -109,7 +109,7 @@ export default function KeywordResearchResultsPage() {
             <CardTitle className="text-sm font-medium text-muted-foreground">Competition</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold">{(research.competition * 100)?.toFixed(0) || 'N/A'}%</p>
+            <p className="text-2xl font-bold">{(research.competition * 100)?.toFixed(0) ?? 'N/A'}%</p>
             <p className="text-xs text-muted-foreground mt-1">Competition level</p>
           </CardContent>
         </Card>
@@ -228,9 +228,9 @@ export default function KeywordResearchResultsPage() {
                 <div key={index} className="border border-border rounded-lg p-4">
                   <h3 className="font-medium text-foreground">{keyword.keyword}</h3>
                   <div className="flex gap-4 mt-2 text-sm text-muted-foreground">
-                    <span>Vol: {keyword.searchVolume?.toLocaleString() || 'N/A'}</span>
-                    <span>Diff: {keyword.difficulty || 'N/A'}</span>
-                    <span>CPC: ${keyword.cpc?.toFixed(2) || 'N/A'}</span>
+                    <span>Vol: {keyword.searchVolume?.toLocaleString() ?? 'N/A'}</span>
+                    <span>Diff: {keyword.difficulty ?? 'N/A'}</span>
+                    <span>CPC: ${keyword.cpc?.toFixed(2) ?? 'N/A'}</span>
                   </div>
                 </div>
               ))}

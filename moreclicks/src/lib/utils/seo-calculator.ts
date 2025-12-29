@@ -1,4 +1,5 @@
 import type { OnPageInstantResponse } from '@/lib/services/dataforseo/onpage'
+import type { ScrapeDoResponse } from '@/lib/services/scrapedo'
 
 // Types for analysis results
 export interface TitleAnalysis {
@@ -559,5 +560,316 @@ export function calculateSEOScore(analyses: {
 
   // Ensure score is between 0 and 100
   return Math.max(0, Math.min(100, score))
+}
+
+/**
+ * Analyze title tag from scraped data
+ */
+export function analyzeTitleTagFromScraped(data: ScrapeDoResponse['data']): TitleAnalysis {
+  const title = data?.title || ''
+  const length = title.length
+
+  const issues: string[] = []
+  let status: 'pass' | 'warning' | 'critical' = 'pass'
+  let score = 1
+
+  if (!title) {
+    status = 'critical'
+    score = -8
+    issues.push('Title tag is missing')
+  } else if (length < 30) {
+    status = 'warning'
+    score = -3
+    issues.push(`Title is too short (${length} characters). Aim for 30-60 characters.`)
+  } else if (length > 60) {
+    status = 'warning'
+    score = -3
+    issues.push(`Title is too long (${length} characters). Aim for 30-60 characters.`)
+  }
+
+  const recommendation =
+    status === 'critical'
+      ? 'Add a descriptive title tag between 30-60 characters'
+      : status === 'warning'
+        ? `Optimize title length to 30-60 characters`
+        : 'Title tag is well optimized'
+
+  return {
+    status,
+    score,
+    value: title,
+    length,
+    targetLength: { min: 30, max: 60 },
+    recommendation,
+    issues,
+  }
+}
+
+/**
+ * Analyze meta description from scraped data
+ */
+export function analyzeMetaDescriptionFromScraped(data: ScrapeDoResponse['data']): MetaAnalysis {
+  const metaDescription = data?.meta?.description || ''
+  const length = metaDescription.length
+
+  const issues: string[] = []
+  let status: 'pass' | 'warning' | 'critical' = 'pass'
+  let score = 1
+
+  if (!metaDescription) {
+    status = 'critical'
+    score = -8
+    issues.push('Meta description is missing')
+  } else if (length < 120) {
+    status = 'warning'
+    score = -3
+    issues.push(`Meta description is too short (${length} characters). Aim for 120-160 characters.`)
+  } else if (length > 160) {
+    status = 'warning'
+    score = -3
+    issues.push(`Meta description is too long (${length} characters). Aim for 120-160 characters.`)
+  }
+
+  const recommendation =
+    status === 'critical'
+      ? 'Add a compelling meta description between 120-160 characters'
+      : status === 'warning'
+        ? `Optimize meta description length to 120-160 characters`
+        : 'Meta description is well optimized'
+
+  return {
+    status,
+    score,
+    value: metaDescription,
+    length,
+    targetLength: { min: 120, max: 160 },
+    recommendation,
+    issues,
+  }
+}
+
+/**
+ * Analyze headings from scraped data
+ */
+export function analyzeHeadingsFromScraped(data: ScrapeDoResponse['data']): HeadingAnalysis {
+  const h1 = data?.headings?.h1 || []
+  const h2 = data?.headings?.h2 || []
+  const h3 = data?.headings?.h3 || []
+
+  const issues: string[] = []
+  let status: 'pass' | 'warning' | 'critical' = 'pass'
+  let score = 1
+
+  // H1 Analysis
+  let h1Status: 'pass' | 'warning' | 'critical' = 'pass'
+  if (h1.length === 0) {
+    h1Status = 'critical'
+    status = 'critical'
+    score = -8
+    issues.push('H1 tag is missing')
+  } else if (h1.length > 1) {
+    h1Status = 'warning'
+    if (status === 'pass') status = 'warning'
+    score -= 3
+    issues.push(`Multiple H1 tags found (${h1.length}). Use only one H1 per page.`)
+  } else if (h1[0] && (h1[0].length < 20 || h1[0].length > 60)) {
+    h1Status = 'warning'
+    if (status === 'pass') status = 'warning'
+    score -= 3
+    issues.push(`H1 length is ${h1[0].length < 20 ? 'too short' : 'too long'} (${h1[0].length} characters)`)
+  }
+
+  // H2 Analysis
+  let h2Status: 'pass' | 'warning' | 'critical' = 'pass'
+  if (h2.length === 0) {
+    h2Status = 'warning'
+    if (status === 'pass') status = 'warning'
+    score -= 3
+    issues.push('No H2 tags found. Consider adding H2 tags to structure your content.')
+  }
+
+  // H3 Analysis
+  let h3Status: 'pass' | 'warning' | 'critical' = 'pass'
+  // H3 is optional, so no penalty
+
+  const recommendation =
+    status === 'critical'
+      ? 'Add a single H1 tag to your page'
+      : status === 'warning'
+        ? 'Optimize heading structure: use one H1, multiple H2s, and H3s as needed'
+        : 'Heading structure is well optimized'
+
+  return {
+    status,
+    score,
+    h1: {
+      count: h1.length,
+      values: h1,
+      status: h1Status,
+    },
+    h2: {
+      count: h2.length,
+      values: h2,
+      status: h2Status,
+    },
+    h3: {
+      count: h3.length,
+      values: h3,
+      status: h3Status,
+    },
+    recommendation,
+    issues,
+  }
+}
+
+/**
+ * Analyze word count from scraped data
+ */
+export function analyzeWordCountFromScraped(data: ScrapeDoResponse['data']): ContentAnalysis {
+  const wordCount = data?.content?.wordCount || 0
+
+  const issues: string[] = []
+  let status: 'pass' | 'warning' | 'critical' = 'pass'
+  let score = 1
+
+  if (wordCount < 300) {
+    status = 'warning'
+    score = -3
+    issues.push(`Low word count (${wordCount}). Aim for at least 300 words for better SEO.`)
+  } else if (wordCount < 500) {
+    status = 'warning'
+    score = -1
+    issues.push(`Word count is decent (${wordCount}) but could be improved. Aim for 500+ words.`)
+  }
+
+  const recommendation =
+    status === 'warning'
+      ? wordCount < 300
+        ? 'Add more content to reach at least 300 words'
+        : 'Consider expanding content to 500+ words for better SEO'
+      : 'Content length is well optimized'
+
+  return {
+    status,
+    score,
+    wordCount,
+    targetWordCount: { min: 300, max: 2000 },
+    recommendation,
+    issues,
+  }
+}
+
+/**
+ * Analyze links from scraped data
+ */
+export function analyzeLinksFromScraped(data: ScrapeDoResponse['data']): LinkAnalysis {
+  const links = data?.links || []
+  const totalLinks = links.length
+
+  const issues: string[] = []
+  let status: 'pass' | 'warning' | 'critical' = 'pass'
+  let score = 1
+
+  // Basic link analysis (can't determine internal/external from scraping alone)
+  if (totalLinks === 0) {
+    status = 'warning'
+    score = -3
+    issues.push('No links found on the page. Consider adding internal and external links.')
+  } else if (totalLinks < 5) {
+    status = 'warning'
+    score = -1
+    issues.push(`Low number of links (${totalLinks}). Consider adding more relevant links.`)
+  }
+
+  const recommendation =
+    status === 'warning'
+      ? 'Add more relevant internal and external links to improve SEO'
+      : 'Link structure is good'
+
+  return {
+    status,
+    score,
+    internalLinks: 0, // Not available from scraping
+    externalLinks: 0, // Not available from scraping
+    totalLinks,
+    brokenLinks: 0, // Would need to check links
+    recommendation,
+    issues,
+  }
+}
+
+/**
+ * Analyze images from scraped data
+ */
+export function analyzeImagesFromScraped(data: ScrapeDoResponse['data']): ImageAnalysis {
+  const images = data?.images || []
+  const totalImages = images.length
+  const imagesWithAlt = images.filter(img => img.alt && img.alt.trim().length > 0).length
+  const imagesWithoutAlt = totalImages - imagesWithAlt
+
+  const issues: string[] = []
+  let status: 'pass' | 'warning' | 'critical' = 'pass'
+  let score = 1
+
+  if (totalImages > 0 && imagesWithoutAlt > 0) {
+    if (imagesWithoutAlt === totalImages) {
+      status = 'critical'
+      score = -8
+      issues.push(`All ${totalImages} images are missing alt text`)
+    } else {
+      status = 'warning'
+      score = -3
+      issues.push(`${imagesWithoutAlt} out of ${totalImages} images are missing alt text`)
+    }
+  }
+
+  const recommendation =
+    status === 'critical'
+      ? 'Add alt text to all images for better accessibility and SEO'
+      : status === 'warning'
+        ? `Add alt text to ${imagesWithoutAlt} image(s) without alt text`
+        : totalImages === 0
+          ? 'Consider adding images with alt text to improve engagement'
+          : 'All images have alt text - well optimized'
+
+  return {
+    status,
+    score,
+    totalImages,
+    imagesWithAlt,
+    imagesWithoutAlt,
+    recommendation,
+    issues,
+  }
+}
+
+/**
+ * Analyze SSL from URL
+ */
+export function analyzeSSLFromURL(url: string): SSLAnalysis {
+  const isHTTPS = url.startsWith('https://')
+
+  const issues: string[] = []
+  let status: 'pass' | 'warning' | 'critical' = 'pass'
+  let score = 1
+
+  if (!isHTTPS) {
+    status = 'critical'
+    score = -8
+    issues.push('Site is not using HTTPS. SSL certificate is required for security and SEO.')
+  }
+
+  const recommendation =
+    status === 'critical'
+      ? 'Install an SSL certificate and enable HTTPS'
+      : 'SSL certificate is properly configured'
+
+  return {
+    status,
+    score,
+    isHTTPS,
+    recommendation,
+    issues,
+  }
 }
 

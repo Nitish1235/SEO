@@ -3,33 +3,73 @@ import { NextResponse } from 'next/server'
 
 export default withAuth(
   function middleware(req) {
-    // Allow access to public routes
-    if (
-      req.nextUrl.pathname.startsWith('/sign-in') ||
-      req.nextUrl.pathname.startsWith('/sign-up') ||
-      req.nextUrl.pathname.startsWith('/pricing') ||
-      req.nextUrl.pathname === '/'
-    ) {
+    const token = req.nextauth.token
+    const pathname = req.nextUrl.pathname
+    const isAuthPage = pathname.startsWith('/sign-in') || pathname.startsWith('/sign-up')
+    const isPublicPage = pathname.startsWith('/pricing') || pathname === '/' || pathname.startsWith('/blog') || pathname.startsWith('/about') || pathname.startsWith('/contact') || pathname.startsWith('/privacy') || pathname.startsWith('/terms') || pathname.startsWith('/cookies') || pathname.startsWith('/disclaimer')
+    const isDashboard = pathname.startsWith('/dashboard')
+    const isApiAuth = pathname.startsWith('/api/auth')
+
+    // Don't interfere with NextAuth API routes
+    if (isApiAuth) {
       return NextResponse.next()
     }
 
-    // Protect dashboard routes
-    if (req.nextUrl.pathname.startsWith('/dashboard')) {
-      if (!req.nextauth.token) {
-        return NextResponse.redirect(new URL('/sign-in', req.url))
+    // If authenticated and on auth page, redirect to dashboard
+    if (token && isAuthPage) {
+      const callbackUrl = req.nextUrl.searchParams.get('callbackUrl')
+      // Validate callbackUrl is safe (starts with / and doesn't contain // or protocol)
+      let redirectUrl = '/dashboard'
+      if (callbackUrl && callbackUrl.startsWith('/') && !callbackUrl.includes('//') && !callbackUrl.includes(':')) {
+        redirectUrl = callbackUrl
       }
+      console.log('Redirecting authenticated user from auth page to:', redirectUrl)
+      return NextResponse.redirect(new URL(redirectUrl, req.url))
     }
 
+    // If not authenticated and trying to access dashboard, redirect to sign-in
+    if (!token && isDashboard) {
+      const signInUrl = new URL('/sign-in', req.url)
+      signInUrl.searchParams.set('callbackUrl', pathname)
+      console.log('Redirecting unauthenticated user to sign-in with callback:', pathname)
+      return NextResponse.redirect(signInUrl)
+    }
+
+    // Allow all other requests (public pages, etc.)
     return NextResponse.next()
   },
   {
     callbacks: {
-      authorized: ({ token }) => !!token,
+      authorized: ({ token, req }) => {
+        const pathname = req.nextUrl.pathname
+        
+        // Don't check authorization for NextAuth API routes
+        if (pathname.startsWith('/api/auth')) {
+          return true
+        }
+        
+        // Dashboard routes require authentication
+        if (pathname.startsWith('/dashboard')) {
+          return !!token
+        }
+        
+        // All other routes are allowed
+        return true
+      },
     },
   }
 )
 
 export const config = {
-  matcher: ['/dashboard/:path*'],
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api/auth (NextAuth routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    '/((?!api/auth|_next/static|_next/image|favicon.ico).*)',
+  ],
 }
 

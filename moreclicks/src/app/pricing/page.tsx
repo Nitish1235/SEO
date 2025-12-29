@@ -8,8 +8,11 @@ export default function PricingPage() {
   return (
     <div className="container mx-auto px-6 py-20">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-foreground mb-4">Pricing Plans</h1>
-        <p className="text-xl text-muted-foreground">
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
+          <span className="gradient-text-4">Pricing</span>
+          <span className="block gradient-text mt-2">Plans</span>
+        </h1>
+        <p className="text-xl font-bold text-purple-600 tracking-wide">
           Choose the plan that fits your needs
         </p>
       </div>
@@ -18,10 +21,10 @@ export default function PricingPage() {
         {Object.entries(PLANS).map(([key, plan]) => (
           <Card key={key} className={key === 'pro' ? 'border-primary border-2' : ''}>
             <CardHeader>
-              <CardTitle className="text-2xl">{plan.name}</CardTitle>
+              <CardTitle className={`text-2xl ${key === 'basic' ? 'gradient-text' : key === 'pro' ? 'gradient-text-2' : 'gradient-text-3'}`}>{plan.name}</CardTitle>
               <div className="mt-4">
-                <span className="text-4xl font-bold">${plan.price}</span>
-                <span className="text-muted-foreground">/month</span>
+                <span className="text-4xl font-bold text-purple-600">${plan.price}</span>
+                <span className="text-purple-500 font-medium">/month</span>
               </div>
             </CardHeader>
             <CardContent>
@@ -29,7 +32,7 @@ export default function PricingPage() {
                 {plan.features.map((feature, index) => (
                   <li key={index} className="flex items-start gap-2">
                     <Check className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm text-muted-foreground">{feature}</span>
+                    <span className="text-sm text-purple-600 font-medium">{feature}</span>
                   </li>
                 ))}
               </ul>

@@ -47,13 +47,18 @@
 - ✅ Usage Cards
 - ✅ Loading Spinner
 - ✅ Error Message
+- ✅ Processing Overlay (animated loading with logo)
+- ✅ Theme Toggle (dark mode support)
 - ✅ All shadcn/ui components
 
 ### Authentication & Payments
 - ✅ NextAuth.js with Google OAuth
 - ✅ Stripe integration (checkout, webhooks, billing portal)
+- ✅ LemonSqueezy integration (alternative payment provider)
 - ✅ Subscription management
 - ✅ Usage limit enforcement
+- ✅ Free tier with limited features
+- ✅ Usage tracking only on completed status
 
 ### Database
 - ✅ Prisma schema with all models
@@ -68,11 +73,22 @@
 - Passed checks: +1 point
 - **No AI influence** on scoring
 
+### UI/UX Enhancements
+- ✅ Dark mode support with theme toggle
+- ✅ Processing overlay with animated logo and progress bar
+- ✅ Enhanced competitor analysis UI with visual comparisons
+- ✅ Improved AI insights display with color-coded cards
+- ✅ Better error messages and user feedback
+- ✅ Responsive design for all screen sizes
+
 ### Claude AI Integration
 - Only receives pre-processed, rule-based results
 - Provides advisory insights only
 - Does NOT detect issues or calculate metrics
-- Generates content briefs for keywords
+- Generates comprehensive content briefs for keywords
+- Provides detailed SEO insights (summary, strengths, weaknesses, priority actions)
+- Generates competitor analysis insights with actionable recommendations
+- Uses model: `claude-sonnet-4-5-20250929`
 
 ### Caching Strategy
 - SERP results: 1 hour TTL
@@ -108,9 +124,22 @@
 
 ## 📊 Pricing Tiers
 
+### Free Tier
+- **1 analysis** per month
+- **3 keywords** per month
+- **0 competitor analyses** (not available on free tier)
+
+### Paid Tiers
 - **Basic**: $29/month - 10 analyses, 25 keywords, 3 competitors
 - **Pro**: $49/month - 25 analyses, 100 keywords, 10 competitors
 - **Agency**: $129/month - 75 analyses, 500 keywords, 50 competitors
+
+## 💳 Usage Tracking
+
+- **Credits are only counted when status is 'completed'**
+- Processing or failed analyses do not count against usage limits
+- Applies to both free tier (record counting) and paid tier (subscription counters)
+- Users are not charged for external API failures or scraping errors
 
 ## 🚀 Ready for Production
 

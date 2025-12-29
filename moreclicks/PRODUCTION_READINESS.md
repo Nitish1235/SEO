@@ -26,8 +26,14 @@
 - ✅ API endpoint (`/api/competitors/find-from-keyword`)
 - ✅ Analysis form component
 - ✅ Results page with comparisons
+- ✅ Visual comparisons with charts
 - ✅ Competitor metrics
+- ✅ Content strategy analysis
+- ✅ Image strategy insights
+- ✅ Gap analysis (positive and negative)
+- ✅ Section-by-section action items
 - ✅ Industry averages
+- ✅ Filters non-useful domains
 
 ## ✅ User Management - COMPLETE
 
@@ -42,12 +48,15 @@
 
 ### Subscription Management
 - ✅ Stripe integration
+- ✅ LemonSqueezy integration
 - ✅ Checkout flow
 - ✅ Billing portal
 - ✅ Webhook handling
 - ✅ Subscription status API
 - ✅ Usage limit enforcement
-- ✅ Three pricing tiers
+- ✅ Free tier (1 analysis, 3 keywords, 0 competitors)
+- ✅ Usage tracking only on completed status
+- ✅ Three paid pricing tiers
 
 ## ✅ Database - COMPLETE
 
@@ -133,11 +142,13 @@
 
 ### Shared
 - ✅ Loading spinner
+- ✅ Processing overlay (animated logo and progress)
 - ✅ Error message
 - ✅ Error boundary
 - ✅ Toast notifications
 - ✅ Search input
 - ✅ Export button
+- ✅ Theme toggle (dark mode)
 
 ### UI (shadcn/ui)
 - ✅ Button
@@ -152,15 +163,18 @@
 ### DataForSEO
 - ✅ On-Page API service
 - ✅ SERP API service
-- ✅ Keywords API service
+- ✅ Keywords API service (improved parsing)
 - ✅ Authentication handling
 - ✅ Error handling
-- ✅ Response parsing
+- ✅ Response parsing (multiple structure support)
+- ✅ Better data extraction
 
 ### Claude AI
-- ✅ SEO insights generation
+- ✅ SEO insights generation (comprehensive)
 - ✅ Content brief generation
+- ✅ Competitor insights generation
 - ✅ Advisory-only implementation
+- ✅ Model: claude-sonnet-4-5-20250929
 
 ### Utilities
 - ✅ SEO calculator (rule-based)
@@ -215,9 +229,12 @@
 - [ ] Test competitor analysis flow
 - [ ] Test subscription checkout
 - [ ] Test webhook handling
-- [ ] Test usage limits
+- [ ] Test usage limits (free tier and paid tier)
+- [ ] Test usage tracking (only on completed status)
 - [ ] Test error handling
 - [ ] Test caching
+- [ ] Test dark mode toggle
+- [ ] Test processing overlay
 
 ## 📋 Optional Enhancements (Future)
 
@@ -229,12 +246,23 @@ These are nice-to-have but not required for MVP:
 - [ ] Team/organization features
 - [ ] API keys for users
 - [ ] Webhooks for integrations
-- [ ] Dark mode
+- [x] Dark mode ✅ (Implemented)
 - [ ] Advanced filtering
 - [ ] Bulk operations
 - [ ] Rank tracking
 - [ ] Backlink analysis
 - [ ] Content suggestions
+
+## ✅ Recent Implementations
+
+- ✅ Dark mode with theme toggle
+- ✅ Processing overlay with animated feedback
+- ✅ Free tier (1 analysis, 3 keywords, 0 competitors)
+- ✅ Usage tracking only on completed status
+- ✅ Enhanced competitor analysis UI
+- ✅ Improved AI insights display
+- ✅ DataForSEO API improvements
+- ✅ LemonSqueezy payment integration
 
 ## ✅ Code Quality
 

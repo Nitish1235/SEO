@@ -1,6 +1,45 @@
 # Changelog
 
-## Latest Updates
+## Latest Updates (2024)
+
+### Usage & Billing
+- ✅ Free tier implemented: 1 analysis, 3 keywords, 0 competitors
+- ✅ Usage tracking only on completed status (not processing or failed)
+- ✅ Users not charged for external API failures
+- ✅ LemonSqueezy payment provider integration
+
+### UI/UX Enhancements
+- ✅ Dark mode with theme toggle
+- ✅ Processing overlay with animated logo and progress bar
+- ✅ Enhanced competitor analysis UI with visual comparisons
+- ✅ Improved AI insights display with color-coded cards
+- ✅ Better error messages and user feedback
+
+### Data & Analysis Improvements
+- ✅ Enhanced DataForSEO API integration with better error handling
+- ✅ Improved data extraction from Scrape.do
+- ✅ Schema markup detection
+- ✅ Open Graph and Twitter Card tags analysis
+- ✅ Content structure analysis (FAQ, lists, tables)
+- ✅ Image optimization details (alt text coverage, quality)
+- ✅ Link analysis (internal/external/nofollow)
+- ✅ Language detection
+
+### Competitor Analysis Enhancements
+- ✅ Visual comparisons with bar charts
+- ✅ Content strategy analysis
+- ✅ Image strategy insights
+- ✅ Gap analysis (positive and negative gaps)
+- ✅ Section-by-section action items
+- ✅ Filters out non-useful domains (social media, wikis, blogs)
+
+### AI Insights Improvements
+- ✅ Comprehensive strengths and weaknesses (no limit)
+- ✅ Priority actions with impact assessment
+- ✅ Detailed section-wise recommendations
+- ✅ Enhanced competitor insights
+
+## Previous Updates
 
 ### History & Activity Features
 - ✅ Added analysis history page (`/dashboard/analyze/history`)

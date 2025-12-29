@@ -32,8 +32,10 @@ A **complete, production-ready SEO SaaS application** with:
 
 ✅ **Complete User Management**
 - Google OAuth authentication
-- Stripe subscription management
-- Usage tracking and limits
+- Stripe and LemonSqueezy subscription management
+- Free tier (1 analysis, 3 keywords, 0 competitors)
+- Usage tracking only on completed status
+- Usage limits enforcement
 
 ✅ **15 API Routes**
 - All CRUD operations
@@ -55,9 +57,13 @@ A **complete, production-ready SEO SaaS application** with:
 - Search and filtering
 - Export functionality
 - Data visualizations
+- Dark mode with theme toggle
+- Processing overlay with animated feedback
 - Toast notifications
 - Error boundaries
 - Recent activity tracking
+- Enhanced competitor analysis UI
+- Comprehensive AI insights
 
 ## 🚀 Quick Start Path
 

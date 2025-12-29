@@ -30,24 +30,33 @@ export async function GET(request: NextRequest) {
       })
     }
 
-    // Free tier limits
+    // Free tier limits - only count completed records (not processing or failed)
     const analysesCount = await prisma.analysis.count({
-      where: { userId: user.id },
+      where: {
+        userId: user.id,
+        status: 'completed'
+      },
     })
     const keywordsCount = await prisma.keywordResearch.count({
-      where: { userId: user.id },
+      where: {
+        userId: user.id,
+        status: 'completed'
+      },
     })
     const competitorsCount = await prisma.competitorAnalysis.count({
-      where: { userId: user.id },
+      where: {
+        userId: user.id,
+        status: 'completed'
+      },
     })
 
     return NextResponse.json({
       analysesUsed: analysesCount,
-      analysesLimit: 3,
+      analysesLimit: 1,
       keywordsUsed: keywordsCount,
-      keywordsLimit: 5,
+      keywordsLimit: 3,
       competitorsUsed: competitorsCount,
-      competitorsLimit: 1,
+      competitorsLimit: 0,
     })
   } catch (error: any) {
     console.error('Get usage error:', error)

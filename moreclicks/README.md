@@ -26,14 +26,29 @@ Visit `http://localhost:3000` to see your application.
 
 ### Core Features
 - **Website SEO Analysis** - Comprehensive technical SEO audit with 50+ metrics
+  - Schema markup detection
+  - Open Graph and Twitter Card tags
+  - Content structure analysis
+  - Image optimization details
+  - Link analysis (internal/external/nofollow)
+  - Language detection
 - **Keyword Research** - Search volume, difficulty, CPC, and AI-generated content briefs
 - **Competitor Analysis** - Compare your website with competitors
+  - Visual comparisons with charts
+  - Content strategy analysis
+  - Image strategy insights
+  - Gap analysis (positive and negative gaps)
+  - Section-by-section action items
 - **AI-Powered Insights** - Claude AI provides strategic recommendations
+  - Comprehensive strengths and weaknesses
+  - Priority actions with impact assessment
+  - Detailed section-wise recommendations
 
 ### User Management
 - Google OAuth authentication
-- Subscription management with Stripe
-- Usage tracking and limits
+- Subscription management with Stripe and LemonSqueezy
+- Usage tracking and limits (only on completed status)
+- Free tier with limited features
 - Billing portal integration
 
 ### Advanced Features
@@ -44,6 +59,10 @@ Visit `http://localhost:3000` to see your application.
 - Toast notifications
 - Error boundaries
 - Recent activity feed
+- Dark mode support
+- Processing overlay with animated feedback
+- Enhanced competitor analysis UI
+- Comprehensive AI insights display
 
 ## 📋 Prerequisites
 
@@ -149,9 +168,20 @@ GOOGLE_CLIENT_SECRET="..."
 
 ## 💰 Pricing Tiers
 
+### Free Tier
+- **1 analysis** per month
+- **3 keywords** per month
+- **0 competitor analyses** (not available on free tier)
+
+### Paid Tiers
 - **Basic**: $29/month - 10 analyses, 25 keywords, 3 competitors
 - **Pro**: $49/month - 25 analyses, 100 keywords, 10 competitors
 - **Agency**: $129/month - 75 analyses, 500 keywords, 50 competitors
+
+### Usage Tracking
+- Credits are only counted when analysis status is **'completed'**
+- Processing or failed analyses do not count against usage
+- Users are not charged for external API failures
 
 ## 🚀 Deployment
 

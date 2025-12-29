@@ -12,10 +12,11 @@ import { RecentActivity } from '@/components/dashboard/recent-activity'
 export default function DashboardPage() {
   const { data: session } = useSession()
   const [usage, setUsage] = useState({
-    analyses: { used: 0, limit: 3 },
-    keywords: { used: 0, limit: 5 },
-    competitors: { used: 0, limit: 1 },
+    analyses: { used: 0, limit: 1 },
+    keywords: { used: 0, limit: 3 },
+    competitors: { used: 0, limit: 0 },
   })
+  const [subscription, setSubscription] = useState<any>(null)
 
   useEffect(() => {
     // Fetch usage data
@@ -24,10 +25,20 @@ export default function DashboardPage() {
       .then((data) => {
         if (data) {
           setUsage({
-            analyses: { used: data.analysesUsed || 0, limit: data.analysesLimit || 3 },
-            keywords: { used: data.keywordsUsed || 0, limit: data.keywordsLimit || 5 },
-            competitors: { used: data.competitorsUsed || 0, limit: data.competitorsLimit || 1 },
+            analyses: { used: data.analysesUsed || 0, limit: data.analysesLimit || 1 },
+            keywords: { used: data.keywordsUsed || 0, limit: data.keywordsLimit || 3 },
+            competitors: { used: data.competitorsUsed || 0, limit: data.competitorsLimit || 0 },
           })
+        }
+      })
+      .catch(console.error)
+
+    // Fetch subscription status
+    fetch('/api/subscription/status')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && data.plan) {
+          setSubscription(data)
         }
       })
       .catch(console.error)
@@ -35,11 +46,28 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
-        <p className="text-muted-foreground mt-2">
-          Welcome back! Analyze your website, research keywords, and track competitors.
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-4xl md:text-5xl font-extrabold gradient-text-4">Dashboard</h1>
+          <p className="text-purple-600 font-bold mt-2 text-lg tracking-wide">
+            Welcome back! Analyze your website, research keywords, and track competitors.
+          </p>
+        </div>
+        {subscription && subscription.plan && (
+          <div className="text-right">
+            <p className="text-sm text-muted-foreground">Current Plan</p>
+            <p className="text-lg font-bold capitalize">{subscription.plan}</p>
+            {subscription.status && (
+              <span className={`text-xs px-2 py-1 rounded ${
+                subscription.status === 'active' 
+                  ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' 
+                  : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+              }`}>
+                {subscription.status}
+              </span>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Usage Cards */}
@@ -69,8 +97,8 @@ export default function DashboardPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Search className="h-5 w-5" />
-              Analyze Website
+              <Search className="h-5 w-5 text-purple-500" />
+              <span className="gradient-text-4">Analyze Website</span>
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -89,8 +117,8 @@ export default function DashboardPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <BarChart3 className="h-5 w-5" />
-              Keyword Research
+              <BarChart3 className="h-5 w-5 text-purple-500" />
+              <span className="gradient-text-5">Keyword Research</span>
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -109,8 +137,8 @@ export default function DashboardPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Users className="h-5 w-5" />
-              Competitor Analysis
+              <Users className="h-5 w-5 text-purple-500" />
+              <span className="gradient-text-2">Competitor Analysis</span>
             </CardTitle>
           </CardHeader>
           <CardContent>

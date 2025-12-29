@@ -93,7 +93,6 @@ export interface SERPOrganicResponse {
         previous_updated_time: string
       }
       total_count: number
-      items_count: number
       search_parameters: {
         se_type: string
         location_name: string
@@ -223,9 +222,10 @@ export class DataForSEOSERPService {
     answerUrl: string
   }> {
     const paa: Array<{ question: string; answer: string; answerUrl: string }> = []
+    const serpData = response.tasks?.[0]?.data as any
 
-    if (response.tasks?.[0]?.data?.search_info?.people_also_ask) {
-      for (const item of response.tasks[0].data.search_info.people_also_ask) {
+    if (serpData?.search_info?.people_also_ask) {
+      for (const item of serpData.search_info.people_also_ask) {
         paa.push({
           question: item.title || '',
           answer: item.answer_text || '',
@@ -246,8 +246,9 @@ export class DataForSEOSERPService {
     url: string
     type: string
   } | null {
-    const items = response.tasks?.[0]?.data?.items || []
-    const featured = items.find((item) => item.is_featured_snippet)
+    const serpData = response.tasks?.[0]?.data as any
+    const items = serpData?.items || []
+    const featured = items.find((item: any) => item.is_featured_snippet)
 
     if (featured) {
       return {
@@ -269,9 +270,10 @@ export class DataForSEOSERPService {
     url: string
   }> {
     const related: Array<{ query: string; url: string }> = []
+    const serpData = response.tasks?.[0]?.data as any
 
-    if (response.tasks?.[0]?.data?.search_info?.related_searches) {
-      for (const item of response.tasks[0].data.search_info.related_searches) {
+    if (serpData?.search_info?.related_searches) {
+      for (const item of serpData.search_info.related_searches) {
         related.push({
           query: item.title || '',
           url: item.url || '',

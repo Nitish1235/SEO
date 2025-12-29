@@ -5,9 +5,10 @@ import { prisma } from '@/lib/prisma'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const session = await getServerSession(authOptions)
     if (!session?.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -23,7 +24,7 @@ export async function GET(
 
     const analysis = await prisma.analysis.findFirst({
       where: {
-        id: params.id,
+        id: id,
         userId: user.id,
       },
     })
@@ -36,7 +37,7 @@ export async function GET(
     return new NextResponse(JSON.stringify(analysis, null, 2), {
       headers: {
         'Content-Type': 'application/json',
-        'Content-Disposition': `attachment; filename="analysis-${params.id}.json"`,
+        'Content-Disposition': `attachment; filename="analysis-${id}.json"`,
       },
     })
   } catch (error: any) {

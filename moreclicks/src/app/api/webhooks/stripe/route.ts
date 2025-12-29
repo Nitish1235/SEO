@@ -4,9 +4,14 @@ import Stripe from 'stripe'
 import { prisma } from '@/lib/prisma'
 import { PLANS } from '@/lib/config/pricing'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2024-12-18.acacia',
-})
+const getStripe = () => {
+  if (!process.env.STRIPE_SECRET_KEY) {
+    throw new Error('STRIPE_SECRET_KEY is not set')
+  }
+  return new Stripe(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: '2025-12-15.clover',
+  })
+}
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!
 
@@ -22,6 +27,7 @@ export async function POST(request: NextRequest) {
   let event: Stripe.Event
 
   try {
+    const stripe = getStripe()
     event = stripe.webhooks.constructEvent(body, signature, webhookSecret)
   } catch (err: any) {
     console.error('Webhook signature verification failed:', err.message)
@@ -81,11 +87,12 @@ export async function POST(request: NextRequest) {
         })
 
         if (user) {
-          if (subscription.status === 'active') {
+          const sub = subscription as any
+          if (sub.status === 'active') {
             await prisma.subscription.update({
               where: { userId: user.id },
               data: {
-                stripeCurrentPeriodEnd: new Date(subscription.current_period_end * 1000),
+                stripeCurrentPeriodEnd: new Date((sub.current_period_end || 0) * 1000),
                 status: 'active',
               },
             })
@@ -93,7 +100,7 @@ export async function POST(request: NextRequest) {
             await prisma.subscription.update({
               where: { userId: user.id },
               data: {
-                status: subscription.status,
+                status: sub.status || 'canceled',
               },
             })
           }

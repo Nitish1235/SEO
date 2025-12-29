@@ -9,6 +9,8 @@ export function validateEnvironment() {
     'UPSTASH_REDIS_REST_TOKEN',
     'DATAFORSEO_LOGIN',
     'DATAFORSEO_PASSWORD',
+    'SERPER_API_KEY',
+    'SCRAPEDO_API_KEY',
     'ANTHROPIC_API_KEY',
     'STRIPE_SECRET_KEY',
     'NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY',
@@ -24,6 +26,16 @@ export function validateEnvironment() {
     'STRIPE_PRICE_BASIC',
     'STRIPE_PRICE_PRO',
     'STRIPE_PRICE_AGENCY',
+    'LEMONSQUEEZY_API_KEY',
+    'LEMONSQUEEZY_STORE_ID',
+    'LEMONSQUEEZY_WEBHOOK_SECRET',
+    'DODO_API_KEY',
+    'DODO_API_BASE_URL',
+    'DODO_WEBHOOK_SECRET',
+    'DODO_PLAN_BASIC',
+    'DODO_PLAN_PRO',
+    'DODO_PLAN_AGENCY',
+    'DODO_CUSTOMER_PORTAL_URL',
   ]
 
   const missing: string[] = []

@@ -37,7 +37,18 @@ export default function SettingsPage() {
           <CardTitle>Danger Zone</CardTitle>
         </CardHeader>
         <CardContent>
-          <Button variant="destructive" onClick={() => signOut()}>
+          <Button 
+            variant="destructive" 
+            onClick={async () => {
+              try {
+                await signOut({ callbackUrl: '/' })
+              } catch (error) {
+                console.error('Sign out error:', error)
+                // Fallback: redirect manually if signOut fails
+                window.location.href = '/'
+              }
+            }}
+          >
             Sign Out
           </Button>
         </CardContent>

@@ -26,9 +26,9 @@ export function Sidebar() {
   const pathname = usePathname()
 
   return (
-    <div className="flex h-full w-64 flex-col border-r border-border bg-card">
-      <div className="flex h-16 items-center border-b border-border px-6">
-        <h1 className="text-xl font-bold text-foreground">SEO Analyzer</h1>
+    <div className="flex h-full w-64 flex-col border-r border-border dark:border-gray-800 bg-card dark:bg-gray-900">
+      <div className="flex h-16 items-center border-b border-border dark:border-gray-800 px-6">
+        <h1 className="text-xl font-bold text-foreground dark:text-gray-100">SEO Analyzer</h1>
       </div>
       <nav className="flex-1 space-y-1 px-3 py-4">
         {navigation.map((item) => {
