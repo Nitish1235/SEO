@@ -1,57 +1,21 @@
 steps:
-  # Clone GitLab repository (if building from GitLab)
-  # Note: For manual builds from local machine, skip this step
-  - name: 'gcr.io/cloud-builders/git'
-    args:
-      - 'clone'
-      - 'https://gitlab.com/nj07508/repository.git'
-      - 'source'
-    waitFor: ['-']
-  
-  # Build the container image from moreclicks folder
-  # If building from local, this will use current directory
-  # If building from GitLab, this will use source/moreclicks
+  # Build Docker image from moreclicks folder
   - name: 'gcr.io/cloud-builders/docker'
-    dir: '${_BUILD_DIR}'  # Use substitution variable, defaults to '.' for local builds
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/seo-analyzer', '.']
-  
-  # Push the container image to Container Registry
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/$PROJECT_ID/seo-analyzer']
-  
-  # Deploy container image to Cloud Run
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: gcloud
+    dir: 'moreclicks'
     args:
-      - 'run'
-      - 'deploy'
-      - 'seo-analyzer'
-      - '--image'
+      - 'build'
+      - '-t'
       - 'gcr.io/$PROJECT_ID/seo-analyzer'
-      - '--region'
-      - 'us-central1'
-      - '--platform'
-      - 'managed'
-      - '--allow-unauthenticated'
-      - '--add-cloudsql-instances'
-      - '$PROJECT_ID:us-central1:seo-analyzer-db'
-      - '--set-secrets'
-      - 'DATABASE_URL=database-url:latest,REDIS_URL=redis-url:latest,NEXTAUTH_SECRET=nextauth-secret:latest,GOOGLE_CLIENT_ID=google-client-id:latest,GOOGLE_CLIENT_SECRET=google-client-secret:latest,ANTHROPIC_API_KEY=anthropic-api-key:latest,DATAFORSEO_LOGIN=dataforseo-login:latest,DATAFORSEO_PASSWORD=dataforseo-password:latest,SERPER_API_KEY=serper-api-key:latest,SCRAPEDO_API_KEY=scrapedo-api-key:latest,DODO_API_KEY=dodo-api-key:latest,DODO_WEBHOOK_SECRET=dodo-webhook-secret:latest'
-      - '--memory'
-      - '2Gi'
-      - '--cpu'
-      - '2'
-      - '--timeout'
-      - '300'
-      - '--max-instances'
-      - '10'
+      - '.'
+
+  # Push image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'gcr.io/$PROJECT_ID/seo-analyzer'
 
 images:
   - 'gcr.io/$PROJECT_ID/seo-analyzer'
 
-substitutions:
-  _BUILD_DIR: '.'  # Default to current directory for local builds
-
 options:
   logging: CLOUD_LOGGING_ONLY
-
