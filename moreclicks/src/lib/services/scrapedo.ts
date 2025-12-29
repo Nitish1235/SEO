@@ -17,6 +17,8 @@ export interface ScrapeDoResponse {
       ogTitle?: string
       ogDescription?: string
       ogImage?: string
+      og?: Record<string, string>
+      twitter?: Record<string, string>
     }
     headings?: {
       h1?: string[]
