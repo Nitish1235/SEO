@@ -45,20 +45,20 @@ export default function DashboardPage() {
   }, [])
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-4xl md:text-5xl font-extrabold gradient-text-4">Dashboard</h1>
-          <p className="text-purple-600 font-bold mt-2 text-lg tracking-wide">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold gradient-text-4">Dashboard</h1>
+          <p className="text-purple-600 font-bold mt-1 sm:mt-2 text-sm sm:text-base md:text-lg tracking-wide">
             Welcome back! Analyze your website, research keywords, and track competitors.
           </p>
         </div>
         {subscription && subscription.plan && (
-          <div className="text-right">
-            <p className="text-sm text-muted-foreground">Current Plan</p>
-            <p className="text-lg font-bold capitalize">{subscription.plan}</p>
+          <div className="text-left sm:text-right">
+            <p className="text-xs sm:text-sm text-muted-foreground">Current Plan</p>
+            <p className="text-base sm:text-lg font-bold capitalize">{subscription.plan}</p>
             {subscription.status && (
-              <span className={`text-xs px-2 py-1 rounded ${
+              <span className={`text-xs px-2 py-1 rounded inline-block mt-1 ${
                 subscription.status === 'active' 
                   ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' 
                   : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
@@ -71,7 +71,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Usage Cards */}
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         <UsageCard
           title="Website Analyses"
           used={usage.analyses.used}
@@ -93,7 +93,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Quick Actions */}
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
