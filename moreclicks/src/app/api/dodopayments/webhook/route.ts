@@ -103,6 +103,15 @@ async function handleSubscriptionEvent(data: any) {
     return
   }
 
+  // Ensure customer ID is saved on user (in case subscription event comes before payment event)
+  if (!user.dodoCustomerId && customerId) {
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { dodoCustomerId: customerId },
+    })
+    console.log(`Updated user ${user.email} with Dodo Payments customer ID: ${customerId}`)
+  }
+
   // Determine plan from product_id (map product_id to plan)
   let plan: 'basic' | 'pro' | 'agency' = 'basic'
   if (productId === process.env.DODO_PLAN_BASIC) {

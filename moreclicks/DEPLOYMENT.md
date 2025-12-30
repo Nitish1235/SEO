@@ -102,7 +102,9 @@ Vercel is the easiest option for Next.js applications.
 
 ### Option 4: Google Cloud Platform (GCP)
 
-This guide will help you deploy your SEO Analyzer application on Google Cloud Platform using the free $300 credits. We'll use Cloud Run (serverless), Cloud SQL (PostgreSQL), and Cloud Memorystore (Redis).
+This guide will help you deploy your SEO Analyzer application on Google Cloud Platform using the free $300 credits. We'll use Cloud Run (serverless), Supabase (PostgreSQL database), and Cloud Memorystore (Redis).
+
+**Note:** This guide assumes you're using Supabase for your database. If you prefer Cloud SQL, you can follow the alternative instructions in Step 4.
 
 **Domain Setup:** This guide includes specific instructions for connecting your `moreclicks.io` domain from Hostinger to Cloud Run.
 
@@ -157,9 +159,10 @@ This guide will help you deploy your SEO Analyzer application on Google Cloud Pl
    - Search for "Cloud Run API"
    - Click "Enable"
 
-2. **Enable Cloud SQL Admin API**
+2. **Enable Cloud SQL Admin API** (Optional - only if you plan to use Cloud SQL instead of Supabase)
    - Search for "Cloud SQL Admin API"
    - Click "Enable"
+   - **Note:** If you're using Supabase, you can skip this step
 
 3. **Enable Cloud Memorystore API**
    - Search for "Cloud Memorystore for Redis API"
@@ -194,30 +197,49 @@ This guide will help you deploy your SEO Analyzer application on Google Cloud Pl
    gcloud --version
    ```
 
-#### Step 4: Create Cloud SQL PostgreSQL Database
+#### Step 4: Set Up Supabase Database (You're Using Supabase)
 
-1. **Create Database Instance**
+Since you're using Supabase, you don't need to create a Cloud SQL database. Your Supabase project already has a PostgreSQL database.
+
+1. **Get Your Supabase Connection String**
+   - Go to [Supabase Dashboard](https://app.supabase.com)
+   - Select your project
+   - Go to **Settings** → **Database**
+   - Under **Connection string**, select **URI** or **Connection pooling**
+   - Copy the connection string
+   - Format: `postgresql://postgres:[YOUR-PASSWORD]@[YOUR-PROJECT-REF].supabase.co:5432/postgres`
+
+2. **Add DATABASE_URL to Secret Manager**
    ```bash
+   # Get your project ID first
+   gcloud config get-value project
+   
+   # Create the secret (replace with your actual Supabase connection string)
+   echo -n "postgresql://postgres:YOUR_PASSWORD@YOUR_PROJECT_REF.supabase.co:5432/postgres" | \
+     gcloud secrets create database-url \
+     --data-file=- \
+     --replication-policy="automatic"
+   ```
+
+3. **Update Your Local .env.local**
+   - Make sure your `moreclicks/.env.local` has:
+     ```
+     DATABASE_URL="postgresql://postgres:YOUR_PASSWORD@YOUR_PROJECT_REF.supabase.co:5432/postgres"
+     ```
+
+**Alternative: If you want to use Cloud SQL instead of Supabase:**
+   ```bash
+   # Create Database Instance
    gcloud sql instances create seo-analyzer-db \
      --database-version=POSTGRES_15 \
      --tier=db-f1-micro \
      --region=us-central1 \
      --root-password=YOUR_SECURE_PASSWORD
-   ```
-   ⚠️ **Replace `YOUR_SECURE_PASSWORD` with a strong password** (save this!)
-
-2. **Create Database**
-   ```bash
+   
+   # Create Database
    gcloud sql databases create seo_analyzer \
      --instance=seo-analyzer-db
    ```
-
-3. **Get Connection String**
-   ```bash
-   gcloud sql instances describe seo-analyzer-db
-   ```
-   - Note the connection name (format: `PROJECT_ID:REGION:INSTANCE_NAME`)
-   - Your `DATABASE_URL` will be: `postgresql://postgres:YOUR_PASSWORD@/seo_analyzer?host=/cloudsql/PROJECT_ID:REGION:INSTANCE_NAME`
 
 #### Step 5: Create Cloud Memorystore Redis Instance
 
@@ -330,8 +352,13 @@ This guide will help you deploy your SEO Analyzer application on Google Cloud Pl
 1. **Create Secrets for Each Environment Variable**
    ```bash
    # Database URL
-   echo -n "postgresql://postgres:PASSWORD@/seo_analyzer?host=/cloudsql/PROJECT_ID:REGION:INSTANCE_NAME" | \
+   # For Supabase (replace with your actual Supabase connection string)
+   echo -n "postgresql://postgres:YOUR_PASSWORD@YOUR_PROJECT_REF.supabase.co:5432/postgres" | \
      gcloud secrets create database-url --data-file=-
+   
+   # Alternative: If using Cloud SQL instead of Supabase:
+   # echo -n "postgresql://postgres:PASSWORD@/seo_analyzer?host=/cloudsql/PROJECT_ID:REGION:INSTANCE_NAME" | \
+   #   gcloud secrets create database-url --data-file=-
    
    # Redis URL
    echo -n "redis://REDIS_IP:6379" | \
@@ -397,18 +424,21 @@ Since your code is in the `moreclicks` folder, we need to specify the build cont
 
 2. **Deploy to Cloud Run**
    ```bash
+   # For Supabase (no --add-cloudsql-instances needed)
    gcloud run deploy seo-analyzer \
      --image gcr.io/YOUR_PROJECT_ID/seo-analyzer \
      --platform managed \
      --region us-central1 \
      --allow-unauthenticated \
-     --add-cloudsql-instances PROJECT_ID:REGION:INSTANCE_NAME \
      --set-env-vars "NODE_ENV=production" \
      --set-secrets "DATABASE_URL=database-url:latest,REDIS_URL=redis-url:latest,NEXTAUTH_SECRET=nextauth-secret:latest,GOOGLE_CLIENT_ID=google-client-id:latest,GOOGLE_CLIENT_SECRET=google-client-secret:latest,ANTHROPIC_API_KEY=anthropic-api-key:latest,DATAFORSEO_LOGIN=dataforseo-login:latest,DATAFORSEO_PASSWORD=dataforseo-password:latest,SERPER_API_KEY=serper-api-key:latest,SCRAPEDO_API_KEY=scrapedo-api-key:latest,DODO_API_KEY=dodo-api-key:latest,DODO_WEBHOOK_SECRET=dodo-webhook-secret:latest" \
      --memory 2Gi \
      --cpu 2 \
      --timeout 300 \
      --max-instances 10
+   
+   # Note: If using Cloud SQL instead of Supabase, add this flag:
+   # --add-cloudsql-instances PROJECT_ID:REGION:INSTANCE_NAME
    ```
 
 3. **Set Additional Environment Variables**
@@ -427,32 +457,80 @@ Since your code is in the `moreclicks` folder, we need to specify the build cont
    #   --update-env-vars "NEXTAUTH_URL=https://moreclicks.io,NEXT_PUBLIC_APP_URL=https://moreclicks.io"
    ```
 
-#### Step 9: Run Database Migrations
+#### Step 9: Run Database Migrations (Using Supabase)
 
-1. **Connect to Cloud Run Service**
+**Where to Run:** Since you're using Supabase, you can run migrations from your local machine or from Cloud Run. Supabase databases are publicly accessible (with authentication), so you don't need special Cloud SQL connections.
+
+**Before Running:** Make sure you have:
+- Your Supabase `DATABASE_URL` (from Supabase dashboard → Settings → Database → Connection string)
+- Your `.env.local` file configured with the `DATABASE_URL`
+
+**Option 1: Run Locally (Easiest - Recommended)**
+
+1. **Open your terminal/command prompt** (PowerShell on Windows, Terminal on Mac/Linux)
+
+2. **Navigate to your project folder:**
    ```bash
-   # Get service URL
-   gcloud run services describe seo-analyzer --region us-central1 --format 'value(status.url)'
+   cd "F:\SAAS\SEO - Copy\moreclicks"
    ```
 
-2. **Run Prisma Migrations**
+3. **Make sure your `.env.local` has the Supabase DATABASE_URL:**
    ```bash
-   # Option 1: Using Cloud Run Jobs (recommended)
+   # Your .env.local should have:
+   DATABASE_URL="postgresql://postgres:[YOUR-PASSWORD]@[YOUR-PROJECT-REF].supabase.co:5432/postgres"
+   ```
+
+4. **Run the migration:**
+   ```bash
+   npx prisma migrate deploy
+   ```
+   
+   This will apply all pending migrations to your Supabase database.
+
+5. **Verify migrations:**
+   ```bash
+   # Check migration status
+   npx prisma migrate status
+   ```
+
+**Option 2: Run from Cloud Run Job (If you prefer running in GCP)**
+
+If you want to run migrations from Cloud Run (useful for CI/CD):
+
+1. **Get your GCP Project ID:**
+   ```bash
+   gcloud config get-value project
+   ```
+
+2. **Create and execute the migration job:**
+   ```bash
+   # Create the migration job (run this ONCE)
    gcloud run jobs create prisma-migrate \
      --image gcr.io/YOUR_PROJECT_ID/seo-analyzer \
      --region us-central1 \
-     --add-cloudsql-instances PROJECT_ID:REGION:INSTANCE_NAME \
      --set-secrets "DATABASE_URL=database-url:latest" \
      --command "npx" \
      --args "prisma,migrate,deploy"
    
-   # Execute the job
+   # Execute the job (run this to actually run migrations)
    gcloud run jobs execute prisma-migrate --region us-central1
    
-   # Option 2: Using Cloud Shell
-   # Connect to Cloud Shell and run:
-   # npx prisma migrate deploy
+   # Check the job status
+   gcloud run jobs executions list --job prisma-migrate --region us-central1
    ```
+
+**Option 3: Run from Supabase Dashboard (Alternative)**
+
+1. Go to [Supabase Dashboard](https://app.supabase.com)
+2. Select your project
+3. Go to **SQL Editor**
+4. You can manually run SQL migrations here, but using Prisma is recommended
+
+**Troubleshooting:**
+
+- **Connection Error:** Make sure your Supabase database allows connections from your IP (check Supabase dashboard → Settings → Database → Connection pooling)
+- **Migration Already Applied:** If you get "migration already applied" errors, that's fine - it means your database is up to date
+- **Check Migration Status:** Run `npx prisma migrate status` to see which migrations are pending
 
 #### Step 10: Configure Custom Domain (moreclicks.io from Hostinger)
 
