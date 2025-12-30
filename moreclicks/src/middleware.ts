@@ -5,6 +5,12 @@ export default withAuth(
   function middleware(req) {
     const token = req.nextauth.token
     const pathname = req.nextUrl.pathname
+    
+    // Allow sitemap and robots files without any processing
+    if (pathname === '/sitemap.xml' || pathname === '/robots.txt') {
+      return NextResponse.next()
+    }
+    
     const isAuthPage = pathname.startsWith('/sign-in') || pathname.startsWith('/sign-up')
     const isPublicPage = pathname.startsWith('/pricing') || pathname === '/' || pathname.startsWith('/blog') || pathname.startsWith('/about') || pathname.startsWith('/contact') || pathname.startsWith('/privacy') || pathname.startsWith('/terms') || pathname.startsWith('/cookies') || pathname.startsWith('/disclaimer')
     const isDashboard = pathname.startsWith('/dashboard')
@@ -42,6 +48,11 @@ export default withAuth(
     callbacks: {
       authorized: ({ token, req }) => {
         const pathname = req.nextUrl.pathname
+        
+        // Always allow sitemap and robots
+        if (pathname === '/sitemap.xml' || pathname === '/sitemap' || pathname === '/robots.txt' || pathname === '/robots') {
+          return true
+        }
         
         // Don't check authorization for NextAuth API routes
         if (pathname.startsWith('/api/auth')) {
