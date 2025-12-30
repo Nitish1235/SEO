@@ -68,8 +68,10 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
+     * - sitemap.xml, sitemap.ts (sitemap files)
+     * - robots.txt (robots file)
      */
-    '/((?!api/auth|_next/static|_next/image|favicon.ico).*)',
+    '/((?!api/auth|_next/static|_next/image|favicon.ico|sitemap|robots).*)',
   ],
 }
 
