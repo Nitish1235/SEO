@@ -25,10 +25,11 @@
     RUN npx prisma generate
     
     # Build Next.js
-    # Turbopack is disabled in next.config.ts, so webpack will be used
+    # Force webpack usage by using --webpack flag (Turbopack causes build errors)
     ENV NEXT_TELEMETRY_DISABLED=1
     ENV NODE_ENV=production
-    RUN npm run build
+    # Use --webpack flag to explicitly disable Turbopack and use webpack
+    RUN npx next build --webpack
     
     # ---------- RUNNER ----------
     FROM base AS runner
