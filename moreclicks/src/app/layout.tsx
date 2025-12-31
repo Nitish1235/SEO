@@ -14,9 +14,9 @@ const inter = Inter({
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXTAUTH_URL || 'https://moreclicks.io'
 
 export const metadata: Metadata = {
-  title: "MoreClicks.io - AI-Powered SEO Analysis & Keyword Research",
-  description: "Comprehensive SEO analysis tool with AI-powered insights, keyword research, and competitor analysis. Boost your website's search engine rankings with our advanced SEO tools.",
-  keywords: "SEO analysis, keyword research, competitor analysis, SEO tools, AI SEO, website analysis, search engine optimization",
+  title: "SEO Analyzer - AI-Powered SEO Analysis | MoreClicks.io",
+  description: "Get comprehensive SEO audits, keyword research, and competitor analysis with AI-powered insights. Improve your rankings and grow your traffic. Start Free Trial.",
+  keywords: "SEO analysis, keyword research, competitor analysis, SEO tools, AI SEO, website analysis, search engine optimization, SEO audit, SEO checker",
   authors: [{ name: "MoreClicks.io" }],
   creator: "MoreClicks.io",
   publisher: "MoreClicks.io",
@@ -26,11 +26,17 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: baseUrl,
     siteName: "MoreClicks.io",
-    title: "MoreClicks.io - AI-Powered SEO Analysis & Keyword Research",
-    description: "Comprehensive SEO analysis tool with AI-powered insights, keyword research, and competitor analysis. Boost your website's search engine rankings.",
+    title: "SEO Analyzer - AI-Powered SEO Analysis | MoreClicks.io",
+    description: "Get comprehensive SEO audits, keyword research, and competitor analysis with AI-powered insights. Improve your rankings and grow your traffic.",
     images: [
       {
-        url: `${baseUrl}/best%20seo%20tool.svg`,
+        url: `${baseUrl}/icon.svg`,
+        width: 512,
+        height: 512,
+        alt: "MoreClicks.io - SEO Analyzer",
+      },
+      {
+        url: `${baseUrl}/best-seo-tool-colored.svg`,
         width: 352,
         height: 294,
         alt: "MoreClicks.io - Best SEO Tool",
@@ -39,20 +45,21 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "MoreClicks.io - AI-Powered SEO Analysis & Keyword Research",
-    description: "Comprehensive SEO analysis tool with AI-powered insights, keyword research, and competitor analysis.",
-    images: [`${baseUrl}/best%20seo%20tool.svg`],
+    title: "SEO Analyzer - AI-Powered SEO Analysis | MoreClicks.io",
+    description: "Get comprehensive SEO audits, keyword research, and competitor analysis with AI-powered insights. Improve your rankings and grow your traffic.",
+    images: [`${baseUrl}/icon.svg`, `${baseUrl}/best-seo-tool-colored.svg`],
     creator: "@moreclicks",
   },
   icons: {
     icon: [
-      { url: '/best%20seo%20tool.svg', type: 'image/svg+xml' },
       { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/best-seo-tool-colored.svg', type: 'image/svg+xml' },
     ],
     apple: [
-      { url: '/best%20seo%20tool.svg', type: 'image/svg+xml' },
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/best-seo-tool-colored.svg', type: 'image/svg+xml' },
     ],
-    shortcut: '/best%20seo%20tool.svg',
+    shortcut: '/icon.svg',
   },
   manifest: `${baseUrl}/manifest.json`,
 };
