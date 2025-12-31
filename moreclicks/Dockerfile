@@ -25,7 +25,9 @@
     RUN npx prisma generate
     
     # Build Next.js
+    # Use webpack for production builds (Turbopack is experimental and causes build errors)
     ENV NEXT_TELEMETRY_DISABLED=1
+    ENV NODE_ENV=production
     RUN npm run build
     
     # ---------- RUNNER ----------
