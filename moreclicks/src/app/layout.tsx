@@ -69,9 +69,65 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Structured data for Google to recognize the logo
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "MoreClicks.io",
+    "url": baseUrl,
+    "logo": `${baseUrl}/icon.svg`,
+    "sameAs": [
+      // Add social media links if available
+    ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "Customer Service",
+      "email": "support@moreclicks.io"
+    }
+  };
+
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "MoreClicks.io",
+    "url": baseUrl,
+    "publisher": {
+      "@type": "Organization",
+      "name": "MoreClicks.io",
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${baseUrl}/icon.svg`,
+        "width": 512,
+        "height": 512
+      }
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": `${baseUrl}/search?q={search_term_string}`
+      },
+      "query-input": "required name=search_term_string"
+    }
+  };
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} font-sans antialiased`}>
+        {/* Structured data for Organization logo - Google Search */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationSchema),
+          }}
+        />
+        {/* Structured data for Website */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteSchema),
+          }}
+        />
         <ThemeProvider>
           <SessionProvider>
             <ErrorBoundary>

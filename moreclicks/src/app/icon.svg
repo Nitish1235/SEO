@@ -6,8 +6,9 @@
  preserveAspectRatio="xMidYMid meet">
 <!-- Blue background matching navbar (bg-blue-600 = #2563EB) -->
 <rect width="512" height="512" fill="#2563EB"/>
-<!-- Logo from best seo tool.svg, centered and properly scaled -->
-<g transform="translate(80, 109) scale(1.0)">
+<!-- Logo from best seo tool.svg - Original is 352x294, scaling to fit nicely in 512x512 with padding -->
+<!-- Scale: 352*1.2 = 422.4, 294*1.2 = 352.8, so we'll use scale 1.2 and center -->
+<g transform="translate(45, 80) scale(1.2)">
 <g transform="translate(0.000000,294.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
 <!-- Vibrant purple rocket head -->
 <path d="M1264 2839 c-10 -17 7 -29 64 -46 107 -32 332 -16 332 24 0 12 -6 14
