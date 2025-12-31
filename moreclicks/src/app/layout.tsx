@@ -14,52 +14,40 @@ const inter = Inter({
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXTAUTH_URL || 'https://moreclicks.io'
 
 export const metadata: Metadata = {
-  title: "SEO Analyzer - AI-Powered SEO Analysis | MoreClicks.io",
+  title: "MoreClicks – AI SEO Analyzer & SEO Audit Tool",
   description: "Get comprehensive SEO audits, keyword research, and competitor analysis with AI-powered insights. Improve your rankings and grow your traffic. Start Free Trial.",
   keywords: "SEO analysis, keyword research, competitor analysis, SEO tools, AI SEO, website analysis, search engine optimization, SEO audit, SEO checker",
-  authors: [{ name: "MoreClicks.io" }],
-  creator: "MoreClicks.io",
-  publisher: "MoreClicks.io",
+  authors: [{ name: "MoreClicks" }],
+  creator: "MoreClicks",
+  publisher: "MoreClicks",
   metadataBase: new URL(baseUrl),
   openGraph: {
     type: "website",
     locale: "en_US",
     url: baseUrl,
-    siteName: "MoreClicks.io",
-    title: "SEO Analyzer - AI-Powered SEO Analysis | MoreClicks.io",
+    siteName: "MoreClicks",
+    title: "MoreClicks – AI SEO Analyzer & SEO Audit Tool",
     description: "Get comprehensive SEO audits, keyword research, and competitor analysis with AI-powered insights. Improve your rankings and grow your traffic.",
     images: [
       {
-        url: `${baseUrl}/icon.svg`,
-        width: 512,
-        height: 512,
-        alt: "MoreClicks.io - SEO Analyzer",
-      },
-      {
-        url: `${baseUrl}/best-seo-tool-colored.svg`,
-        width: 352,
-        height: 294,
-        alt: "MoreClicks.io - Best SEO Tool",
+        url: `${baseUrl}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: "MoreClicks – AI SEO Analyzer & SEO Audit Tool",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "SEO Analyzer - AI-Powered SEO Analysis | MoreClicks.io",
+    title: "MoreClicks – AI SEO Analyzer & SEO Audit Tool",
     description: "Get comprehensive SEO audits, keyword research, and competitor analysis with AI-powered insights. Improve your rankings and grow your traffic.",
-    images: [`${baseUrl}/icon.svg`, `${baseUrl}/best-seo-tool-colored.svg`],
+    images: [`${baseUrl}/og-image.png`],
     creator: "@moreclicks",
   },
   icons: {
-    icon: [
-      { url: '/icon.svg', type: 'image/svg+xml' },
-      { url: '/best-seo-tool-colored.svg', type: 'image/svg+xml' },
-    ],
-    apple: [
-      { url: '/icon.svg', type: 'image/svg+xml' },
-      { url: '/best-seo-tool-colored.svg', type: 'image/svg+xml' },
-    ],
-    shortcut: '/icon.svg',
+    icon: "/logo.svg",
+    apple: "/logo.svg",
+    shortcut: "/logo.svg",
   },
   manifest: `${baseUrl}/manifest.json`,
 };
@@ -73,41 +61,34 @@ export default function RootLayout({
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "MoreClicks.io",
+    "name": "MoreClicks",
     "url": baseUrl,
-    "logo": `${baseUrl}/icon.svg`,
+    "logo": `${baseUrl}/logo.svg`,
     "sameAs": [
-      // Add social media links if available
+      "https://twitter.com/moreclicks",
+      "https://www.linkedin.com/company/moreclicks"
     ],
     "contactPoint": {
       "@type": "ContactPoint",
-      "contactType": "Customer Service",
-      "email": "support@moreclicks.io"
+      "contactType": "Customer Support",
+      "email": "nitish@moreclicks.io"
     }
   };
 
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "MoreClicks.io",
+    "name": "MoreClicks",
     "url": baseUrl,
     "publisher": {
       "@type": "Organization",
-      "name": "MoreClicks.io",
+      "name": "MoreClicks",
       "logo": {
         "@type": "ImageObject",
-        "url": `${baseUrl}/icon.svg`,
+        "url": `${baseUrl}/logo.svg`,
         "width": 512,
         "height": 512
       }
-    },
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": {
-        "@type": "EntryPoint",
-        "urlTemplate": `${baseUrl}/search?q={search_term_string}`
-      },
-      "query-input": "required name=search_term_string"
     }
   };
 
