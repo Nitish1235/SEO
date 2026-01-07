@@ -12,10 +12,13 @@ export const metadata: Metadata = {
     description: "Your data protection and privacy commitment at MoreClicks.io",
     type: "website",
   },
+  alternates: {
+    canonical: "https://moreclicks.io/privacy",
+  },
 };
 
 export default function PrivacyPolicyPage() {
-  const lastUpdated = "December 27, 2024";
+  const lastUpdated = "December 27, 2026";
 
   return (
     <div className="light" suppressHydrationWarning>
@@ -310,8 +313,8 @@ export default function PrivacyPolicyPage() {
             "name": "Privacy Policy",
             "description": "Privacy Policy for MoreClicks.io - Learn how we protect your data and privacy",
             "url": "https://moreclicks.io/privacy",
-            "datePublished": "2024-12-27",
-            "dateModified": "2024-12-27",
+            "datePublished": "2026-12-27",
+            "dateModified": "2026-12-27",
             "publisher": {
               "@type": "Organization",
               "name": "MoreClicks.io",

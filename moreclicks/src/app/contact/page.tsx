@@ -12,6 +12,9 @@ export const metadata: Metadata = {
     description: "Get in touch with the MoreClicks.io team",
     type: "website",
   },
+  alternates: {
+    canonical: "https://moreclicks.io/contact",
+  },
 };
 
 export default function ContactPage() {

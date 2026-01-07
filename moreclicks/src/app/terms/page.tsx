@@ -12,10 +12,13 @@ export const metadata: Metadata = {
     description: "User agreement and terms of service for MoreClicks.io",
     type: "website",
   },
+  alternates: {
+    canonical: "https://moreclicks.io/terms",
+  },
 };
 
 export default function TermsOfServicePage() {
-  const lastUpdated = "December 27, 2024";
+  const lastUpdated = "December 27, 2026";
 
   return (
     <div className="light" suppressHydrationWarning>
@@ -329,8 +332,8 @@ export default function TermsOfServicePage() {
             "name": "Terms of Service",
             "description": "Terms of Service and User Agreement for MoreClicks.io",
             "url": "https://moreclicks.io/terms",
-            "datePublished": "2024-12-27",
-            "dateModified": "2024-12-27",
+            "datePublished": "2026-12-27",
+            "dateModified": "2026-12-27",
             "publisher": {
               "@type": "Organization",
               "name": "MoreClicks.io",

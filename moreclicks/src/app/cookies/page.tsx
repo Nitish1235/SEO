@@ -12,10 +12,13 @@ export const metadata: Metadata = {
     description: "Cookie Policy and tracking technologies used by MoreClicks.io",
     type: "website",
   },
+  alternates: {
+    canonical: "https://moreclicks.io/cookies",
+  },
 };
 
 export default function CookiePolicyPage() {
-  const lastUpdated = "December 27, 2024";
+  const lastUpdated = "December 27, 2026";
 
   return (
     <div className="light" suppressHydrationWarning>
@@ -320,8 +323,8 @@ export default function CookiePolicyPage() {
             "name": "Cookie Policy",
             "description": "Cookie Policy for MoreClicks.io - Learn about our use of cookies and tracking technologies",
             "url": "https://moreclicks.io/cookies",
-            "datePublished": "2024-12-27",
-            "dateModified": "2024-12-27",
+            "datePublished": "2026-12-27",
+            "dateModified": "2026-12-27",
             "publisher": {
               "@type": "Organization",
               "name": "MoreClicks.io",

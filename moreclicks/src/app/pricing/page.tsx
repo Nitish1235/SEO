@@ -1,8 +1,24 @@
+import type { Metadata } from 'next'
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Check } from 'lucide-react'
 import { PLANS } from '@/lib/config/pricing'
 import Link from 'next/link'
+
+export const metadata: Metadata = {
+  title: 'Pricing | MoreClicks.io - SEO Tool Plans & Pricing',
+  description: 'Choose a MoreClicks plan that fits your needs. AI-powered SEO analysis, keyword research, and competitor insights. Simple, transparent pricing.',
+  keywords: 'seo tool pricing, ai seo pricing, seo audit pricing, keyword research pricing, moreclicks pricing',
+  alternates: {
+    canonical: 'https://moreclicks.io/pricing',
+  },
+  openGraph: {
+    title: 'Pricing | MoreClicks.io',
+    description: 'Simple, transparent pricing for AI-powered SEO analysis and research',
+    type: 'website',
+    url: 'https://moreclicks.io/pricing',
+  },
+}
 
 export default function PricingPage() {
   return (

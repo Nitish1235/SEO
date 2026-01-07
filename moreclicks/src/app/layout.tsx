@@ -21,6 +21,20 @@ export const metadata: Metadata = {
   creator: "MoreClicks",
   publisher: "MoreClicks",
   metadataBase: new URL(baseUrl),
+  alternates: {
+    canonical: baseUrl,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      maxImagePreview: "large",
+      maxSnippet: -1,
+      maxVideoPreview: -1,
+    },
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -30,7 +44,7 @@ export const metadata: Metadata = {
     description: "Get comprehensive SEO audits, keyword research, and competitor analysis with AI-powered insights. Improve your rankings and grow your traffic.",
     images: [
       {
-        url: `${baseUrl}/og-image.png`,
+        url: `${baseUrl}/best-ai-seo.jpg`,
         width: 1200,
         height: 630,
         alt: "MoreClicks – AI SEO Analyzer & SEO Audit Tool",
@@ -41,7 +55,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "MoreClicks – AI SEO Analyzer & SEO Audit Tool",
     description: "Get comprehensive SEO audits, keyword research, and competitor analysis with AI-powered insights. Improve your rankings and grow your traffic.",
-    images: [`${baseUrl}/og-image.png`],
+    images: [`${baseUrl}/best-ai-seo.jpg`],
     creator: "@moreclicks",
   },
   icons: {
@@ -92,6 +106,34 @@ export default function RootLayout({
     }
   };
 
+  // Structured data for the software application / product
+  const softwareApplicationSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "MoreClicks",
+    "applicationCategory": "SEO Tool",
+    "operatingSystem": "Web",
+    "url": baseUrl,
+    "image": `${baseUrl}/best-ai-seo.jpg`,
+    "description": "AI-powered SEO analyzer for audits, keyword research, and competitor analysis.",
+    "offers": {
+      "@type": "AggregateOffer",
+      "priceCurrency": "USD",
+      "lowPrice": "29",
+      "highPrice": "129",
+      "offerCount": "3",
+      "url": `${baseUrl}/pricing`
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "MoreClicks",
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${baseUrl}/logo.svg`
+      }
+    }
+  };
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} font-sans antialiased`}>
@@ -107,6 +149,13 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(websiteSchema),
+          }}
+        />
+        {/* Structured data for SoftwareApplication */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(softwareApplicationSchema),
           }}
         />
         <ThemeProvider>

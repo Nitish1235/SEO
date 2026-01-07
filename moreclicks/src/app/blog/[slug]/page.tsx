@@ -18,20 +18,20 @@ const blogPosts: Record<string, {
   seoTitle?: string;
   seoDescription?: string;
 }> = {
-  "complete-guide-seo-analysis-2024": {
-    title: "Complete Guide to SEO Analysis in 2024",
-    excerpt: "Learn how to perform comprehensive SEO analysis for your website. Discover the key metrics, tools, and strategies that matter most in 2024.",
+  "complete-guide-seo-analysis-2026": {
+    title: "Complete Guide to SEO Analysis in 2026",
+    excerpt: "Learn how to perform comprehensive SEO analysis for your website. Discover the key metrics, tools, and strategies that matter most in 2026.",
     author: "MoreClicks Team",
-    date: "December 27, 2024",
+    date: "December 27, 2026",
     readTime: "10 min read",
     category: "SEO Basics",
     image: "/best-ai-seo.jpg",
-    seoTitle: "Complete Guide to SEO Analysis in 2024 | MoreClicks.io",
-    seoDescription: "Master SEO analysis with our comprehensive 2024 guide. Learn key metrics, tools, and strategies to improve your website's search rankings.",
+    seoTitle: "Complete Guide to SEO Analysis in 2026 | MoreClicks.io",
+    seoDescription: "Master SEO analysis with our comprehensive 2026 guide. Learn key metrics, tools, and strategies to improve your website's search rankings.",
     content: `
-# Complete Guide to SEO Analysis in 2024
+# Complete Guide to SEO Analysis in 2026
 
-SEO analysis is the foundation of any successful digital marketing strategy. In 2024, the landscape of search engine optimization continues to evolve, making it crucial to stay updated with the latest analysis techniques and tools.
+SEO analysis is the foundation of any successful digital marketing strategy. In 2026, the landscape of search engine optimization continues to evolve, making it crucial to stay updated with the latest analysis techniques and tools.
 
 ## What is SEO Analysis?
 
@@ -162,7 +162,7 @@ Focus on recommendations that:
 9. **Inadequate Content**: Thin or low-quality content hurts rankings
 10. **Missing Social Tags**: Reduces social sharing effectiveness
 
-## Best Practices for 2024
+## Best Practices for 2026
 
 1. **Comprehensive Analysis**: Use tools that analyze 50+ metrics
 2. **AI-Powered Insights**: Leverage intelligent recommendations
@@ -204,12 +204,12 @@ By using advanced analysis platforms, you can quickly identify issues, prioritiz
     title: "Keyword Research Mastery: Finding High-Value Keywords",
     excerpt: "Master the art of keyword research with our comprehensive guide. Learn how to identify high-value keywords that drive traffic and conversions.",
     author: "MoreClicks Team",
-    date: "December 27, 2024",
+    date: "December 27, 2026",
     readTime: "12 min read",
     category: "Keyword Research",
     image: "/best-ai-seo.jpg",
     seoTitle: "Keyword Research Mastery: Finding High-Value Keywords | MoreClicks.io",
-    seoDescription: "Learn advanced keyword research techniques to find high-value keywords that drive traffic and conversions. Master keyword research in 2024.",
+    seoDescription: "Learn advanced keyword research techniques to find high-value keywords that drive traffic and conversions. Master keyword research in 2026.",
     content: `
 # Keyword Research Mastery: Finding High-Value Keywords
 
@@ -428,7 +428,7 @@ Users ready to purchase:
 6. **Ignoring User Intent**: Mismatched content and keywords hurt rankings
 7. **Overlooking PAA Questions**: Missing featured snippet opportunities
 
-## Best Practices for 2024
+## Best Practices for 2026
 
 1. **Comprehensive Analysis**: Use tools that provide volume, difficulty, CPC, and SERP data
 2. **SERP Deep Dive**: Analyze top-ranking pages for insights
@@ -449,7 +449,7 @@ Focus on finding keywords that balance search volume, competition, and user inte
     title: "How to Perform Effective Competitor SEO Analysis",
     excerpt: "Discover what your competitors are doing right and identify opportunities to outperform them. Learn the secrets of effective competitor analysis.",
     author: "MoreClicks Team",
-    date: "December 27, 2024",
+    date: "December 27, 2026",
     readTime: "11 min read",
     category: "Competitor Analysis",
     image: "/best-ai-seo.jpg",
@@ -701,7 +701,7 @@ Advanced tools offer:
 - AI-powered recommendations
 - Export and reporting capabilities
 
-## Best Practices for 2024
+## Best Practices for 2026
 
 1. **Regular Analysis**: Monitor competitors monthly
 2. **Visual Understanding**: Use charts and comparisons
@@ -735,20 +735,20 @@ Effective competitor analysis is an ongoing process that provides valuable insig
 By using advanced competitor analysis platforms, you can quickly identify what competitors are doing well, find gaps in their strategies, and discover opportunities to outperform them. Remember: Don't just copy competitors—learn from them and create something better. Use competitor analysis as inspiration to develop your unique, superior approach.
     `,
   },
-  "ai-seo-tools-2024": {
+  "ai-seo-tools-2026": {
     title: "The Future of SEO: AI-Powered Tools and Strategies",
     excerpt: "Explore how AI is revolutionizing SEO analysis and what it means for your digital marketing strategy. Stay ahead with cutting-edge AI tools.",
     author: "MoreClicks Team",
-    date: "December 27, 2024",
+    date: "December 27, 2026",
     readTime: "9 min read",
     category: "AI & Technology",
     image: "/best-ai-seo.jpg",
     seoTitle: "The Future of SEO: AI-Powered Tools and Strategies | MoreClicks.io",
-    seoDescription: "Discover how AI is transforming SEO analysis and digital marketing. Learn about AI-powered SEO tools and strategies for 2024.",
+    seoDescription: "Discover how AI is transforming SEO analysis and digital marketing. Learn about AI-powered SEO tools and strategies for 2026.",
     content: `
 # The Future of SEO: AI-Powered Tools and Strategies
 
-Artificial Intelligence is revolutionizing how we approach SEO analysis and optimization. In 2024, AI-powered tools are becoming essential for staying competitive in search engine rankings.
+Artificial Intelligence is revolutionizing how we approach SEO analysis and optimization. In 2026, AI-powered tools are becoming essential for staying competitive in search engine rankings.
 
 ## How AI is Transforming SEO
 
@@ -925,14 +925,14 @@ AI-powered SEO tools are transforming how we approach search engine optimization
 
 The future of SEO lies in combining AI-powered analysis with strategic thinking. Use AI tools to handle comprehensive analysis and get intelligent recommendations, then apply your expertise to implement improvements and create unique advantages.
 
-Embrace AI-powered SEO tools to stay ahead of the competition and achieve better search rankings in 2024 and beyond.
+Embrace AI-powered SEO tools to stay ahead of the competition and achieve better search rankings in 2026 and beyond.
     `,
   },
   "on-page-seo-optimization": {
     title: "On-Page SEO Optimization: A Step-by-Step Guide",
     excerpt: "Optimize your website's on-page elements for better search rankings. Learn about meta tags, headings, content structure, and more.",
     author: "MoreClicks Team",
-    date: "December 27, 2024",
+    date: "December 27, 2026",
     readTime: "12 min read",
     category: "On-Page SEO",
     image: "/best-ai-seo.jpg",
@@ -1132,7 +1132,7 @@ Add structured data:
 - Uneven distribution
 - Broken internal links
 
-## Best Practices for 2024
+## Best Practices for 2026
 
 ### 1. Comprehensive Analysis
 Use tools that analyze:
@@ -1182,17 +1182,17 @@ Use comprehensive analysis tools to identify issues, get AI-powered recommendati
     `,
   },
   "technical-seo-checklist": {
-    title: "Technical SEO Checklist: Essential Elements for 2024",
+    title: "Technical SEO Checklist: Essential Elements for 2026",
     excerpt: "Ensure your website meets all technical SEO requirements. Follow our comprehensive checklist to improve your site's technical foundation.",
     author: "MoreClicks Team",
-    date: "December 27, 2024",
+    date: "December 27, 2026",
     readTime: "11 min read",
     category: "Technical SEO",
     image: "/best-ai-seo.jpg",
-    seoTitle: "Technical SEO Checklist: Essential Elements for 2024 | MoreClicks.io",
-    seoDescription: "Follow our comprehensive technical SEO checklist to ensure your website meets all requirements for optimal search engine performance in 2024.",
+    seoTitle: "Technical SEO Checklist: Essential Elements for 2026 | MoreClicks.io",
+    seoDescription: "Follow our comprehensive technical SEO checklist to ensure your website meets all requirements for optimal search engine performance in 2026.",
     content: `
-# Technical SEO Checklist: Essential Elements for 2024
+# Technical SEO Checklist: Essential Elements for 2026
 
 Technical SEO forms the foundation of your website's search engine performance. This comprehensive checklist ensures your site meets all technical requirements for optimal rankings.
 
@@ -1377,7 +1377,7 @@ Modern tools provide:
 - **AI-Powered Recommendations**: Intelligent suggestions
 - **Priority Action Items**: High-impact improvements
 
-## Best Practices for 2024
+## Best Practices for 2026
 
 ### 1. Comprehensive Analysis
 Use tools that evaluate:
@@ -1478,6 +1478,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description: post.excerpt,
       type: "article",
       publishedTime: post.date,
+    },
+    alternates: {
+      canonical: `https://moreclicks.io/blog/${slug}`,
     },
   };
 }

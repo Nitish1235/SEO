@@ -13,6 +13,9 @@ export const metadata: Metadata = {
     description: "Learn about MoreClicks.io and our mission to revolutionize SEO analysis",
     type: "website",
   },
+  alternates: {
+    canonical: "https://moreclicks.io/about",
+  },
 };
 
 export default function AboutPage() {

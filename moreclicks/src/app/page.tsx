@@ -363,6 +363,76 @@ export default function Home() {
           </div>
         </section>
 
+        {/* FAQ Section */}
+        <section className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-20">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-8 sm:mb-12">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-3 sm:mb-4">
+                <span className="gradient-text-5">Frequently Asked</span>
+                <span className="block gradient-text-6 mt-2">SEO Questions</span>
+              </h2>
+              <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
+                Clear answers about how MoreClicks works, what our AI SEO analyzer does, and how it helps you rank higher.
+              </p>
+            </div>
+
+            <div className="space-y-6">
+              <div className="border border-border rounded-xl p-4 sm:p-6 bg-card">
+                <h3 className="text-lg sm:text-xl font-semibold mb-2">
+                  What is an AI SEO analyzer and how does MoreClicks work?
+                </h3>
+                <p className="text-sm sm:text-base text-muted-foreground">
+                  MoreClicks is an AI-powered SEO analyzer and SEO audit tool. It crawls your page, measures 50+ SEO
+                  metrics (technical SEO, on-page SEO, Core Web Vitals, content, links, and more), then uses AI to turn
+                  that data into clear recommendations you can act on in minutes.
+                </p>
+              </div>
+
+              <div className="border border-border rounded-xl p-4 sm:p-6 bg-card">
+                <h3 className="text-lg sm:text-xl font-semibold mb-2">
+                  Who is MoreClicks for?
+                </h3>
+                <p className="text-sm sm:text-base text-muted-foreground">
+                  MoreClicks is built for marketers, founders, agencies, and SEO specialists who need fast, reliable SEO
+                  audits, keyword research, and competitor analysis. It works great for SaaS, local businesses,
+                  ecommerce stores, blogs, and agencies managing multiple sites.
+                </p>
+              </div>
+
+              <div className="border border-border rounded-xl p-4 sm:p-6 bg-card">
+                <h3 className="text-lg sm:text-xl font-semibold mb-2">
+                  Do I need to be an SEO expert to use MoreClicks?
+                </h3>
+                <p className="text-sm sm:text-base text-muted-foreground">
+                  No. MoreClicks explains SEO issues and fixes in simple language. You get plain‑English insights and
+                  prioritized action items, plus visual charts that make it easy to understand what to fix first.
+                </p>
+              </div>
+
+              <div className="border border-border rounded-xl p-4 sm:p-6 bg-card">
+                <h3 className="text-lg sm:text-xl font-semibold mb-2">
+                  Is there a free trial? Can I cancel anytime?
+                </h3>
+                <p className="text-sm sm:text-base text-muted-foreground">
+                  Yes. You can start with a free trial that includes several full SEO analyses. If you upgrade, plans
+                  are month‑to‑month and you can cancel anytime from your billing dashboard—no long‑term contracts.
+                </p>
+              </div>
+
+              <div className="border border-border rounded-xl p-4 sm:p-6 bg-card">
+                <h3 className="text-lg sm:text-xl font-semibold mb-2">
+                  How is MoreClicks different from other SEO tools?
+                </h3>
+                <p className="text-sm sm:text-base text-muted-foreground">
+                  Traditional SEO tools bombard you with raw data. MoreClicks combines accurate SEO metrics with AI
+                  insights, competitor comparisons, and keyword research in one place, so you know exactly what to fix
+                  and what opportunities to go after next.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* CTA Section */}
         <section 
           className="w-full py-20 relative"
@@ -443,6 +513,64 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* FAQPage JSON-LD for homepage FAQ section */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What is an AI SEO analyzer and how does MoreClicks work?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text":
+                    "MoreClicks is an AI-powered SEO analyzer and SEO audit tool. It crawls your page, measures 50+ SEO metrics including technical SEO, on-page SEO, Core Web Vitals, content and links, and then uses AI to turn that data into clear, prioritized recommendations."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Who is MoreClicks for?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text":
+                    "MoreClicks is built for marketers, founders, agencies and SEO specialists who need fast, reliable SEO audits, keyword research and competitor analysis. It works well for SaaS, local businesses, ecommerce stores, blogs and agencies managing multiple client sites."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Do I need to be an SEO expert to use MoreClicks?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text":
+                    "You do not need to be an SEO expert. MoreClicks explains SEO issues in simple language, gives plain-English insights and prioritized action items, and uses visual charts so you can quickly understand what to fix first."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is there a free trial and can I cancel anytime?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text":
+                    "Yes. MoreClicks offers a free trial with several full SEO analyses. Paid plans are billed monthly and you can cancel anytime from your billing dashboard with no long-term contracts."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How is MoreClicks different from other SEO tools?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text":
+                    "Most SEO tools focus on raw data. MoreClicks combines accurate SEO metrics with AI insights, competitor comparisons and keyword research in a single interface, so you get clear recommendations instead of just reports."
+                }
+              }
+            ]
+          })
+        }}
+      />
     </div>
   );
 }

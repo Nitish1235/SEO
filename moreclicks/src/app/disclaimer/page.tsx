@@ -12,10 +12,13 @@ export const metadata: Metadata = {
     description: "Disclaimer and limitations for MoreClicks.io SEO analysis services",
     type: "website",
   },
+  alternates: {
+    canonical: "https://moreclicks.io/disclaimer",
+  },
 };
 
 export default function DisclaimerPage() {
-  const lastUpdated = "December 27, 2024";
+  const lastUpdated = "December 27, 2026";
 
   return (
     <div className="light" suppressHydrationWarning>
@@ -325,8 +328,8 @@ export default function DisclaimerPage() {
             "name": "Disclaimer",
             "description": "Disclaimer and limitations for MoreClicks.io SEO analysis services",
             "url": "https://moreclicks.io/disclaimer",
-            "datePublished": "2024-12-27",
-            "dateModified": "2024-12-27",
+            "datePublished": "2026-12-27",
+            "dateModified": "2026-12-27",
             "publisher": {
               "@type": "Organization",
               "name": "MoreClicks.io",
