@@ -270,9 +270,15 @@ export default function BlogPage() {
             "url": "https://moreclicks.io/blog",
             "publisher": {
               "@type": "Organization",
-              "name": "MoreClicks.io",
+              "name": "MoreClicks",
+              "alternateName": "MoreClicks.io",
               "url": "https://moreclicks.io",
-              "logo": "https://moreclicks.io/best seo tool.svg"
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://moreclicks.io/logo.png",
+                "width": 512,
+                "height": 512
+              }
             },
             "blogPost": blogPosts.map(post => ({
               "@type": "BlogPosting",

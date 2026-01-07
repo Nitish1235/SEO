@@ -292,9 +292,15 @@ export default function AboutPage() {
             "url": "https://moreclicks.io/about",
             "mainEntity": {
               "@type": "Organization",
-              "name": "MoreClicks.io",
+              "name": "MoreClicks",
+              "alternateName": "MoreClicks.io",
               "url": "https://moreclicks.io",
-              "logo": "https://moreclicks.io/best seo tool.svg",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://moreclicks.io/logo.png",
+                "width": 512,
+                "height": 512
+              },
               "description": "AI-powered SEO analysis platform providing comprehensive SEO tools and insights",
               "sameAs": []
             }

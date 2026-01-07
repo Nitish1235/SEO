@@ -76,6 +76,7 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "MoreClicks",
+    "alternateName": "MoreClicks.io",
     "url": baseUrl,
     "logo": {
       "@type": "ImageObject",
@@ -84,6 +85,7 @@ export default function RootLayout({
       "height": 512,
       "contentUrl": `${baseUrl}/logo.png`
     },
+    "image": `${baseUrl}/logo.png`,
     "sameAs": [
       "https://twitter.com/moreclicks",
       "https://www.linkedin.com/company/moreclicks"
@@ -92,6 +94,14 @@ export default function RootLayout({
       "@type": "ContactPoint",
       "contactType": "Customer Support",
       "email": "nitish@moreclicks.io"
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": `${baseUrl}/dashboard/analyze`
+      },
+      "query-input": "required name=search_term_string"
     }
   };
 
