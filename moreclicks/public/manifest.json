@@ -8,6 +8,12 @@
   "description": "AI-powered SEO analyzer & audit tool for keyword research and competitor analysis.",
   "icons": [
     {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
       "src": "/logo.svg",
       "sizes": "any",
       "type": "image/svg+xml",

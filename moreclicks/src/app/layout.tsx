@@ -30,9 +30,9 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      maxImagePreview: "large",
-      maxSnippet: -1,
-      maxVideoPreview: -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
     },
   },
   openGraph: {
@@ -77,7 +77,13 @@ export default function RootLayout({
     "@type": "Organization",
     "name": "MoreClicks",
     "url": baseUrl,
-    "logo": `${baseUrl}/logo.svg`,
+    "logo": {
+      "@type": "ImageObject",
+      "url": `${baseUrl}/logo.png`,
+      "width": 512,
+      "height": 512,
+      "contentUrl": `${baseUrl}/logo.png`
+    },
     "sameAs": [
       "https://twitter.com/moreclicks",
       "https://www.linkedin.com/company/moreclicks"
@@ -99,9 +105,10 @@ export default function RootLayout({
       "name": "MoreClicks",
       "logo": {
         "@type": "ImageObject",
-        "url": `${baseUrl}/logo.svg`,
+        "url": `${baseUrl}/logo.png`,
         "width": 512,
-        "height": 512
+        "height": 512,
+        "contentUrl": `${baseUrl}/logo.png`
       }
     }
   };
@@ -129,7 +136,10 @@ export default function RootLayout({
       "name": "MoreClicks",
       "logo": {
         "@type": "ImageObject",
-        "url": `${baseUrl}/logo.svg`
+        "url": `${baseUrl}/logo.png`,
+        "width": 512,
+        "height": 512,
+        "contentUrl": `${baseUrl}/logo.png`
       }
     }
   };
