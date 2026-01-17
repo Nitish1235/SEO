@@ -59,9 +59,14 @@ export const metadata: Metadata = {
     creator: "@moreclicks",
   },
   icons: {
-    icon: "/logo.svg",
-    apple: "/logo.svg",
-    shortcut: "/logo.svg",
+    icon: [
+      { url: "/logo.svg", type: "image/svg+xml" },
+      { url: "/logo.png", type: "image/png", sizes: "512x512" },
+    ],
+    apple: [
+      { url: "/logo.png", sizes: "512x512", type: "image/png" },
+    ],
+    shortcut: ["/logo.svg"],
   },
   manifest: `${baseUrl}/manifest.json`,
 };
